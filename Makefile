@@ -3,7 +3,6 @@ CPP = c++ -std=c++11 -fsanitize=address -g3
 INCS_ROOT = inc
 INCS_READLINE = /usr/local/opt/readline/include
 BUILDDIR=build/
-CPP_INCS= -I${INCS_ROOT}
 SRCS = ${wildcard src/*.cpp}
 OBJS= ${SRCS:.cpp=.o}
 OBJS_TARGET=${addprefix ${BUILDDIR},${subst /,_,${OBJS}}}
@@ -11,8 +10,10 @@ UNAME := $(shell uname)
 
 ifeq ($(UNAME), Linux)
 	CPP_FLAGS = lib/glad/libglad-linux.a -lglfw -lm
-else
-	CPP_FLAGS = lib/glad/libglad-linux.a -lglfw -lm
+	CPP_INCS= -I${INCS_ROOT}
+else ifeq ($(UNAME), Darwin)
+	CPP_FLAGS = lib/glad/libglad-mac.a lib/glfw/libglfw.3.3.dylib -framework OpenGL
+	CPP_INCS= -I${INCS_ROOT} -Ilib/glad/include -Ilib/glm
 endif
 
 
