@@ -12,10 +12,9 @@ ifeq ($(UNAME), Linux)
 	CPP_FLAGS = lib/glad/libglad-linux.a -lglfw -lm
 	CPP_INCS= -I${INCS_ROOT}
 else ifeq ($(UNAME), Darwin)
-	CPP_FLAGS = lib/glad/libglad-mac.a lib/glfw/libglfw.3.3.dylib -framework OpenGL
+	CPP_FLAGS = lib/glad/libglad-mac.a lib/glfw/libglfw3.a -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo 
 	CPP_INCS= -I${INCS_ROOT} -Ilib/glad/include -Ilib/glm -Ilib/glfw
 endif
-
 
 # Style constants
 RED=\033[0;31m
