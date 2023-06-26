@@ -13,7 +13,7 @@ ifeq ($(UNAME), Linux)
 	CPP_INCS= -I${INCS_ROOT}
 else ifeq ($(UNAME), Darwin)
 	CPP_FLAGS = lib/glad/libglad-mac.a lib/glfw/libglfw.3.3.dylib -framework OpenGL
-	CPP_INCS= -I${INCS_ROOT} -Ilib/glad/include -Ilib/glm
+	CPP_INCS= -I${INCS_ROOT} -Ilib/glad/include -Ilib/glm -Ilib/glfw
 endif
 
 
