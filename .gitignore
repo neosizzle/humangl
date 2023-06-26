@@ -1,2 +1,2 @@
 humangl
-build/*
+build/*.o
