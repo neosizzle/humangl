@@ -28,6 +28,28 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
+// dev test area
+#include "Animation.hpp"
+void dev_fn()
+{
+    std::vector<float> kf;
+
+    kf.push_back(1.0f);
+    kf.push_back(100.0f);
+    // kf.push_back(-10.0f);
+    // kf.push_back(10.0f);
+    // kf.push_back(-10.0f);
+    // kf.push_back(10.0f);
+    // kf.push_back(1.0f);
+
+    Animation anim(kf, 100);
+    for(size_t i = 0; i < 10; i++)
+    {
+        anim.test(10.0f);
+    }
+    
+}
+
 int main()
 {
     // glfw: initialize and configure
@@ -68,6 +90,12 @@ int main()
     // -------------------------
     Shader ourShader("src/shaders/vertex-basic.glsl", "src/shaders/fragment-basic.glsl");
 
+    // initialize options
+
+    // create / initialize animations
+
+    // create our body
+
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
@@ -107,6 +135,11 @@ int main()
     glBindVertexArray(0); 
 
 
+    // dev fn
+    dev_fn();
+
+
+
     // uncomment this call to draw in wireframe polygons.
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -139,6 +172,8 @@ int main()
         float angle = 20.0f;
         model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
         ourShader.setMat4("model", model);
+
+        // draw body
 
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         //glDrawArrays(GL_TRIANGLES, 0, 6);
