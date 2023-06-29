@@ -1,5 +1,6 @@
 NAME = humangl
-CPP = c++ -std=c++11 -fsanitize=address -g3
+# CPP = c++ -std=c++11 -fsanitize=address -g3
+CPP = c++ -std=c++11
 INCS_ROOT = inc
 INCS_READLINE = /usr/local/opt/readline/include
 BUILDDIR=build/

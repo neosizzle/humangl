@@ -30,30 +30,58 @@ float lastFrame = 0.0f;
 
 // dev test area
 #include "Animation.hpp"
-void dev_fn()
+Animation dev_fn()
 {
-    std::vector<float> kf;
+    glm::mat4 m_iden(1.0f);
 
-    kf.push_back(1.0f);
-    kf.push_back(100.0f);
-    // kf.push_back(-10.0f);
-    // kf.push_back(10.0f);
-    // kf.push_back(-10.0f);
-    // kf.push_back(10.0f);
-    // kf.push_back(1.0f);
+    // create translation keyframes for 1 bp
+    std::map<std::string, std::vector<Keyframe> > translation_keyframes;
+    std::vector<Keyframe> kfs_1;
+    kfs_1.push_back({
+        m_iden,
+        0.0f
+    });
+    kfs_1.push_back({
+        glm::translate(m_iden, glm::vec3(1.0f, 1.0f, 1.0f)),
+        10.0f
+    });
+    translation_keyframes.insert({"bp_1", kfs_1});
 
-    Animation anim(kf, 100);
-    for(size_t i = 0; i < 10; i++)
-    {
-        anim.test(10.0f);
-    }
-    
+    // create scaling keyframes
+    std::map<std::string, std::vector<Keyframe> > scale_keyframes;
+    std::vector<Keyframe> kfs_2;
+    kfs_2.push_back({
+        m_iden,
+        0.0f
+    });
+    kfs_2.push_back({
+        glm::scale(m_iden, glm::vec3(2.0f, 2.0f, 2.0f)),
+        1.0f
+    });
+    scale_keyframes.insert({"bp_1", kfs_2});
+
+    // crete rotation keyframes
+    std::vector<std::map<std::string, glm::mat4> > keyframes_rotate;
+
+    // insert bp keyframes into a vector
+    Animation anim(
+        translation_keyframes,
+        scale_keyframes,
+        keyframes_rotate,
+        1.0f
+    );
+
+    // for(size_t i = 0; i < 101; i++)
+    // {
+    //    std::map<std::string, glm::mat4> frame = anim.get_next_frame(1.0f);
+    //    std::cout << glm::to_string(frame["bp_1"]) << "\n";
+    // }
+    return anim;
 }
 
 int main()
 {
     // glfw: initialize and configure
-    // ------------------------------
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -64,7 +92,6 @@ int main()
 #endif
 
     // glfw window creation
-    // --------------------
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
     {
@@ -79,7 +106,6 @@ int main()
     glfwSetScrollCallback(window, scroll_callback);
 
     // glad: load all OpenGL function pointers
-    // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
@@ -87,7 +113,6 @@ int main()
     }
 
     // build and compile shaders
-    // -------------------------
     Shader ourShader("src/shaders/vertex-basic.glsl", "src/shaders/fragment-basic.glsl");
 
     // initialize options
@@ -97,7 +122,6 @@ int main()
     // create our body
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
-    // ------------------------------------------------------------------
     float vertices[] = {
          0.5f,  0.5f, 0.1f,  // top right
          0.5f, -0.5f, 0.1f,  // bottom right
@@ -124,35 +148,29 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    // glBindBuffer(GL_ARRAY_BUFFER, 0); 
-
-    // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+	// unbind array now, rebind it later
     glBindVertexArray(0); 
 
 
     // dev fn
-    dev_fn();
-
+    Animation anim = dev_fn();
 
 
     // uncomment this call to draw in wireframe polygons.
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // render loop
-    // -----------
     while (!glfwWindowShouldClose(window))
     {
+        // per-frame time logic
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         // input
-        // -----
         processInput(window);
 
         // render
-        // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -171,6 +189,9 @@ int main()
         glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
         float angle = 20.0f;
         model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+        // appy animations
+        std::map<std::string, glm::mat4> frame = anim.get_next_frame(deltaTime);
+        model = frame["bp_1"] * model;
         ourShader.setMat4("model", model);
 
         // draw body
@@ -178,29 +199,24 @@ int main()
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         //glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        // glBindVertexArray(0); // no need to unbind it every time 
  
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
-    // ------------------------------------------------------------------------
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
     glDeleteProgram(ourShader.ID);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
-    // ------------------------------------------------------------------
     glfwTerminate();
     return 0;
 }
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -217,15 +233,12 @@ void processInput(GLFWwindow *window)
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    // make sure the viewport matches the new window dimensions; note that width and 
-    // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 }
+
 // glfw: whenever the mouse moves, this callback is called
-// -------------------------------------------------------
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
     float xpos = static_cast<float>(xposIn);
@@ -248,7 +261,6 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
-// ----------------------------------------------------------------------
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     camera.ProcessMouseScroll(static_cast<float>(yoffset));
