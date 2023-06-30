@@ -13,10 +13,24 @@ struct Keyframe {
     float timestamp;
 };
 
+struct KeyframeTranslate {
+    float pos_x;
+    float pos_y;
+    float pos_z;
+    float timestamp;
+};
+
+struct KeyframeScale {
+    float scale_x;
+    float scale_y;
+    float scale_z;
+    float timestamp;
+};
+
 struct KeyframeRotate {
-    glm::mat4 transformation_x;
-    glm::mat4 transformation_y;
-    glm::mat4 transformation_z;
+    float degree_x;
+    float degree_y;
+    float degree_z;
     float timestamp;
 };
 
@@ -37,16 +51,21 @@ class Animation
         std::string name;
         float duration;
         float curr_progress;
-        std::map<std::string, std::vector<Keyframe> >  keyframes_translate;
-        std::map<std::string, std::vector<Keyframe> >  keyframes_scale;
-        std::vector<std::map<std::string, glm::mat4> > keyframes_rotate;
+        std::map<std::string, std::vector<KeyframeTranslate> >  keyframes_translate;
+        std::map<std::string, std::vector<KeyframeScale> >  keyframes_scale;
+        std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate;
 
         glm::mat4 interpolate_translate(float delta_time, std::string body_part);
         glm::mat4 interpolate_scale(float delta_time, std::string body_part);
+        glm::mat4 interpolate_rotate(float delta_time, std::string body_part);
+
+        template<typename Keyframe>
+        float get_kf_percentage(std::vector<Keyframe> kf_vect, Keyframe& curr_kf, Keyframe& next_kf);
 
     public:
-        void set_keyframes_translate(std::map<std::string, std::vector<Keyframe> > keyframes_translate);
-        void set_keyframes_scale(std::map<std::string, std::vector<Keyframe> > keyframes_scale);
+        void set_keyframes_translate(std::map<std::string, std::vector<KeyframeTranslate> > keyframes_translate);
+        void set_keyframes_scale(std::map<std::string, std::vector<KeyframeScale> > keyframes_scale);
+        void set_keyframes_rotate( std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate);
         float get_duration();
 
         /**
@@ -59,9 +78,9 @@ class Animation
 
 
         Animation(
-        std::map<std::string, std::vector<Keyframe> > keyframes_translate,
-        std::map<std::string, std::vector<Keyframe> > keyframes_scale,
-        std::vector<std::map<std::string, glm::mat4> > keyframes_rotate,
+        std::map<std::string, std::vector<KeyframeTranslate> > keyframes_translate,
+        std::map<std::string, std::vector<KeyframeScale> > keyframes_scale,
+         std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate,
         float duration
         );
         ~Animation();
