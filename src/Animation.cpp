@@ -5,12 +5,14 @@
 #include <iostream>
 
 Animation::Animation(
+    std::vector<std::string> body_parts,
     std::map<std::string, std::vector<KeyframeTranslate> > keyframes_translate,
     std::map<std::string, std::vector<KeyframeScale> > keyframes_scale,
-     std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate,
+    std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate,
     float duration
     )
 :
+body_parts(body_parts),
 keyframes_translate(keyframes_translate),
 keyframes_scale(keyframes_scale),
 keyframes_rotate(keyframes_rotate),
@@ -177,25 +179,28 @@ glm::mat4 Animation::interpolate_rotate(float delta_time, std::string body_part)
 std::map<std::string, glm::mat4> Animation::get_next_frame(float delta_time)
 {
     std::map<std::string, glm::mat4> res;
-    std::map<std::string, Keyframe> selectedBp;
     glm::mat4 translate_interpolated;
     glm::mat4 scale_interpolated;
     glm::mat4 rotate_interpolated;
 
     // loop through body parts
+    for (int i = 0; i < this->body_parts.size(); i++) {
+        std::string body_part = this->body_parts[i];
 
-    // interpolate scale
-    scale_interpolated = this->interpolate_scale(delta_time, "bp_1");
+        // interpolate scale
+        scale_interpolated = this->interpolate_scale(delta_time, body_part);
 
-    // interpolate translate
-    translate_interpolated = this->interpolate_translate(delta_time, "bp_1");
+        // interpolate translate
+        translate_interpolated = this->interpolate_translate(delta_time, body_part);
 
-    // interpolate rotate
-    rotate_interpolated = this->interpolate_rotate(delta_time, "bp_1");
+        // interpolate rotate
+        rotate_interpolated = this->interpolate_rotate(delta_time, body_part);
 
-    // combine interpolations
-    glm::mat4 combined = scale_interpolated * translate_interpolated * rotate_interpolated;  
-    res.insert({"bp_1", combined});
+        // combine interpolations
+        glm::mat4 combined = scale_interpolated * translate_interpolated * rotate_interpolated;  
+        res.insert({body_part, combined});
+
+    }
 
     // increment progress
     this->curr_progress += delta_time;

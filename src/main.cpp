@@ -28,98 +28,6 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-// dev test area
-#include "Animation.hpp"
-Animation dev_fn()
-{
-    glm::mat4 m_iden(1.0f);
-
-    // create translation keyframes for 1 bp
-    std::map<std::string, std::vector<KeyframeTranslate> > translation_keyframes;
-    std::vector<KeyframeTranslate> kfs_1;
-    kfs_1.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f
-    });
-    kfs_1.push_back({
-        -1.0f,
-        0.0f,
-        0.0f,
-        1.0f
-    });
-    kfs_1.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        2.0f
-    });
-    translation_keyframes.insert({"bp_1", kfs_1});
-
-    // create scaling keyframes
-    std::map<std::string, std::vector<KeyframeScale> > scale_keyframes;
-    std::vector<KeyframeScale> kfs_2;
-    kfs_2.push_back({
-        1.0f,
-        1.0f,
-        1.0f,
-        0.0f
-    });
-    kfs_2.push_back({
-        2.5f,
-        2.5f,
-        2.5f,
-        1.0f
-    });
-    kfs_2.push_back({
-        1.0f,
-        1.0f,
-        1.0f,
-        2.0f
-    });
-    scale_keyframes.insert({"bp_1", kfs_2});
-
-    // crete rotation keyframes
-    std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate;
-    std::vector<KeyframeRotate> kfs_3;
-    kfs_3.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-    });
-    kfs_3.push_back({
-        0.0f,
-        0.0f,
-        180.0f,
-        1.0f,
-    });
-     kfs_3.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        2.0f,
-    });
-    keyframes_rotate.insert({"bp_1", kfs_3});
-
-    // insert bp keyframes into a vector
-    Animation anim(
-        translation_keyframes,
-        scale_keyframes,
-        keyframes_rotate,
-        2.0f
-    );
-
-    // std::cout << glm::to_string( glm::rotate(m_iden, 180.0f, glm::vec3(0.0f, 0.0f, 1.0f))) << "\n";
-    // for(size_t i = 0; i < 101; i++)
-    // {
-    //    std::map<std::string, glm::mat4> frame = anim.get_next_frame(0.01f);
-    // //    std::cout << glm::to_string(frame["bp_1"]) << "\n";
-    // }
-    return anim;
-}
-
 int main()
 {
     // glfw: initialize and configure
@@ -192,11 +100,6 @@ int main()
 	// unbind array now, rebind it later
     glBindVertexArray(0); 
 
-
-    // dev fn
-    Animation anim = dev_fn();
-
-
     // uncomment this call to draw in wireframe polygons.
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -233,9 +136,7 @@ int main()
         glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
         // model = glm::rotate(model, glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
         // angle += 1;
-        // apply animations
-        std::map<std::string, glm::mat4> frame = anim.get_next_frame(deltaTime);
-        model = frame["bp_1"] * model;
+
         ourShader.setMat4("model", model);
 
         // draw body
