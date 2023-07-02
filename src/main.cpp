@@ -3,10 +3,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp> // Include the header file
+
 #include <iostream>
 
 #include "Shader.hpp"
 #include "Camera.hpp"
+#include "Options.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -27,6 +30,9 @@ bool firstMouse = true;
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
+
+// option object
+Options options;
 
 int main()
 {
@@ -132,6 +138,13 @@ int main()
         glm::mat4 view = camera.GetViewMatrix();
         ourShader.setMat4("view", view);
 
+        // get options
+        // std::cout
+        // << "bp " << options.get_selected_bp()
+        // << " color " << glm::to_string(options.get_colors()[options.get_selected_bp()])
+        // << " size " << options.get_sizes()[options.get_selected_bp()]
+        // << "\n";
+
         // calculate the model matrix for each object and pass it to shader before drawing
         glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
         // model = glm::rotate(model, glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -175,6 +188,9 @@ void processInput(GLFWwindow *window)
         camera.ProcessKeyboard(LEFT);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT);
+
+    // handle options
+    options.handle_key(window);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
