@@ -1,5 +1,5 @@
-#ifndef BODY_H
-#define BODY_H
+#ifndef HIP_H
+#define HIP_H
 
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -10,22 +10,18 @@
 #include <vector>
 #include <stack>
 
-#include "Hip.hpp"
-
 using std::stack;
 using std::vector;
 using std::cout;
-using std::endl;
 
-class Body {
+class Hip {
     private:
-        stack<vector<float>> _stack;
         unsigned int VBO, VAO, EBO;
-
-    public:
-        Body();
-        ~Body();
         void draw(void);
+        void drawChestTest(void);
+    public:
+        Hip(stack<vector<float>> &stack);
+        ~Hip();
         unsigned int getVAO();
 };
 
