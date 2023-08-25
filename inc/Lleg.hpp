@@ -1,11 +1,10 @@
-#ifndef HIP_H
-#define HIP_H
+#ifndef LLEG_H
+#define LLEG_H
 
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 
 #include "Bodypart.hpp"
-#include "Lleg.hpp"
 #include <iostream>
 #include <string>
 #include <map>
@@ -16,12 +15,12 @@ using std::stack;
 using std::vector;
 using std::cout;
 
-class Hip : public Bodypart {
+class Lleg : public Bodypart {
     private:
         void actualRender(void);
     public:
-        Hip(stack<Bodypart *> *bodyStack);
-        ~Hip();
+        Lleg(stack<Bodypart *> *bodyStack);
+        ~Lleg();
         void draw(void);
 };
 
