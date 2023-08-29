@@ -8,6 +8,9 @@
 #include "Shader.hpp"
 #include "Camera.hpp"
 
+#include "Matrix.hpp"
+#include "Vector.hpp"
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -39,6 +42,22 @@ int main()
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
+
+    // test
+    try
+    {
+        Vector mat(3, {1.1, 1.1, 1.1});
+        Vector mat2(3, {0.1, 1.1, 1.1});
+        Vector mat3 = mat + mat2;
+        std::cout << (mat + mat2).to_string() << "\n";
+    }
+    catch(std::string e)
+    {
+        std::cout << e << '\n';
+    }
+
+
+    // end test
 
     // glfw window creation
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
