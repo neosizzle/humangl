@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
 #include <iostream>
 
 #include "Shader.hpp"
@@ -10,6 +11,7 @@
 
 #include "Matrix.hpp"
 #include "Vector.hpp"
+#include "FtMath.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -46,10 +48,16 @@ int main()
     // test
     try
     {
-        Vector mat(3, {1.1, 1.1, 1.1});
-        Vector mat2(3, {0.1, 1.1, 1.1});
-        Vector mat3 = mat + mat2;
-        std::cout << (mat + mat2).to_string() << "\n";
+        Vector _v1(3, {2, 3, 4});
+        Vector _v2(3, {5, 6, 7});
+        Vector _v3(3, {8, 9, 10});
+
+        glm::vec3 v1(2, 3, 4);
+        glm::vec3 v2(5, 6, 7);
+        glm::vec3 v3(8, 9, 10);
+
+        std::cout << glm::to_string(glm::lookAt(v1, v2, v3))  << "\n";
+        std::cout << ftm::lookAt(_v1, _v2, _v3).to_string() << "\n";
     }
     catch(std::string e)
     {

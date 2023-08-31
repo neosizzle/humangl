@@ -26,6 +26,7 @@ public:
 	
 	Vector operator =(Vector right);
 	Vector operator +(Vector right);
+	Vector operator -(Vector right);
 };
 
 #endif  //!__VECTOR__H__

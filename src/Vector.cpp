@@ -67,6 +67,22 @@ Vector Vector::operator+(Vector right)
 	return newVect;
 }
 
+Vector Vector::operator-(Vector right)
+{
+	std::vector<float> res_arr;
+	float* v1_arr = this->value_ptr();
+	float* v2_arr = right.value_ptr();
+
+	if (this->_dims != right.get_dims())
+		throw std::string("Vector::operator+(Vector right): Different sizes");
+
+	for (size_t i = 0; i < this->_dims; i++)
+		res_arr.push_back(v1_arr[i] - v2_arr[i]);
+
+	Vector newVect(this->get_dims(), res_arr);
+	return newVect;
+}
+
 Vector Vector::operator=(Vector right)
 {
 	float *vect = right.value_ptr();
