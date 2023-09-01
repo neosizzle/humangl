@@ -88,8 +88,8 @@ Matrix Matrix::operator+(Matrix right)
 	for (size_t i = 0; i < length; i++)
 		res_arr.push_back(v1_arr[i] + v2_arr[i]);
 
-	Matrix newVect(this->get_dims(), res_arr);
-	return newVect;
+	Matrix newMat(this->get_dims(), res_arr);
+	return newMat;
 }
 
 Matrix Matrix::operator-(Matrix right)
@@ -105,8 +105,8 @@ Matrix Matrix::operator-(Matrix right)
 	for (size_t i = 0; i < length; i++)
 		res_arr.push_back(v1_arr[i] - v2_arr[i]);
 
-	Matrix newVect(this->get_dims(), res_arr);
-	return newVect;
+	Matrix newMat(this->get_dims(), res_arr);
+	return newMat;
 }
 
 Matrix Matrix::operator=(Matrix right)
@@ -116,6 +116,47 @@ Matrix Matrix::operator=(Matrix right)
 
 	this->_dims = size;
 	this->_arr = new float[size];
+	size *= size;
+	for (size_t i = 0; i < size; i++)
+		this->_arr[i] = vect[i];
+
+	return *this;
+}
+
+Matrix Matrix::operator*(float mag)
+{
+	std::vector<float> res_arr;
+	float* v1_arr = this->value_ptr();
+	float length = this->_dims * this->_dims;
+
+	for (size_t i = 0; i < length; i++)
+		res_arr.push_back(v1_arr[i] * mag);
+
+	Matrix newMat(this->get_dims(), res_arr);
+	return newMat;
+}
+
+Matrix Matrix::operator+=(Matrix right)
+{
+	Matrix newMat = *this + right;
+	float *vect = newMat.value_ptr();
+	int size = newMat.get_dims();
+
+	// copy elements
+	size *= size;
+	for (size_t i = 0; i < size; i++)
+		this->_arr[i] = vect[i];
+
+	return *this;
+}
+
+Matrix Matrix::operator-=(Matrix right)
+{
+	Matrix newMat = *this - right;
+	float *vect = newMat.value_ptr();
+	int size = newMat.get_dims();
+
+	// copy elements
 	size *= size;
 	for (size_t i = 0; i < size; i++)
 		this->_arr[i] = vect[i];

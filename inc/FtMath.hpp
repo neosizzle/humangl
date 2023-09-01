@@ -4,6 +4,11 @@
 
 namespace ftm
 {
+	float radians(float degrees)
+	{
+		return degrees / 180 * 3.142;
+	}
+
 	/**
 	 * Dot product of two vectors
 	*/
