@@ -27,9 +27,6 @@ Body::Body(){
 
 Body::~Body()
 {
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
 }
 
 void Body::draw(void)

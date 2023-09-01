@@ -25,16 +25,16 @@ void Lleg::draw(void)
 
 void Lleg::actualRender(void)
 {
-    float chest[] =
+    float lleg[] =
         {
-            0.5f, 2.5f, 0.1f,    // top right
-            0.5f, 1.0f, 0.1f,   // bottom right
-            -0.5f, 1.0f, 0.1f,  // bottom left
-            -0.5f, 2.5f, 0.1f,   // top left
-            -0.5f, 0.5f, -0.9f,  // top left behind
+            -0.3f,  -0.5f, 0.1f,  // top right
+            -0.3f, -1.5f, 0.1f,  // bottom right
+            -0.5f, -1.5f, 0.1f,  // bottom left
+            -0.5f,  -0.5f, 0.1f,   // top left 
+            -0.5f, 0.5f, -0.9f, // top left behind
             0.5f, 0.5f, -0.9f,   // top right behind
             -0.5f, -0.5f, -0.9f, // bottom left behind
-            0.5f, -0.5f, -0.9f   // bottom right behind
+            0.5f, -0.5f, -0.9f // bottom right behind
         };
 
     unsigned int indices[] = {         // note that we start from 0!
@@ -49,7 +49,7 @@ void Lleg::actualRender(void)
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(chest), chest, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(lleg), lleg, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);

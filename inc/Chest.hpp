@@ -1,29 +1,26 @@
-#ifndef BODY_H
-#define BODY_H
+#ifndef CHEST_H
+#define CHEST_H
 
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
-#include "Bodypart.hpp"
 
+#include "Bodypart.hpp"
 #include <iostream>
 #include <string>
 #include <map>
 #include <vector>
 #include <stack>
 
-#include "Hip.hpp"
-
 using std::stack;
 using std::vector;
 using std::cout;
-using std::endl;
 
-class Body {
+class Chest : public Bodypart {
     private:
-        stack<Bodypart *> _bodyStack;
+        void actualRender(void);
     public:
-        Body();
-        ~Body();
+        Chest(stack<Bodypart *> *bodyStack);
+        ~Chest();
         void draw(void);
 };
 

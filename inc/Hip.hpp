@@ -5,6 +5,7 @@
 #include <glm/gtx/string_cast.hpp>
 
 #include "Bodypart.hpp"
+#include "Chest.hpp"
 #include "Lleg.hpp"
 #include <iostream>
 #include <string>
