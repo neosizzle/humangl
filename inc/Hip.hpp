@@ -7,6 +7,7 @@
 #include "Bodypart.hpp"
 #include "Chest.hpp"
 #include "Lleg.hpp"
+#include "Rleg.hpp"
 #include <iostream>
 #include <string>
 #include <map>

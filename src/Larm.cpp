@@ -1,4 +1,4 @@
-#include "Chest.hpp"
+#include "Larm.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -6,47 +6,35 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-Chest::Chest(stack<Bodypart *> *bodyStack)
+Larm::Larm(stack<Bodypart *> *bodyStack)
 {
     _bodyStack = bodyStack;
 }
 
-Chest::~Chest()
+Larm::~Larm()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
 }
 
-void Chest::draw(void)
+void Larm::draw(void)
 {
-    vector<Bodypart *> parts =
-    {
-        new Larm(_bodyStack),
-        new Rarm(_bodyStack)
-    };
-    for (int i = 0; i < parts.size(); i++)
-    {
-        _bodyStack->push(parts[i]);
-        _bodyStack->top()->draw();
-        _bodyStack->pop();
-        delete parts[i];
-    }
     this->actualRender();
 }
 
-void Chest::actualRender(void)
+void Larm::actualRender(void)
 {
-    float chest[] =
+    float larm[] =
         {
-            0.5f, 1.5f, 0.1f,    // top right
-            0.5f, 0.5f, 0.1f,   // bottom right
-            -0.5f, 0.5f, 0.1f,  // bottom left
-            -0.5f, 1.5f, 0.1f,   // top left
-            -0.5f, 0.5f, -0.9f,  // top left behind
+            -0.5f,  0.1f, 0.1f,  // top right
+            -0.5f, -0.1f, 0.1f,  // bottom right
+            -1.3f, -0.1f, 0.1f,  // bottom left
+            -1.3f, 0.1f, 0.1f,   // top left 
+            -0.5f, 0.5f, -0.9f, // top left behind
             0.5f, 0.5f, -0.9f,   // top right behind
             -0.5f, -0.5f, -0.9f, // bottom left behind
-            0.5f, -0.5f, -0.9f   // bottom right behind
+            0.5f, -0.5f, -0.9f // bottom right behind
         };
 
     unsigned int indices[] = {         // note that we start from 0!
@@ -61,7 +49,7 @@ void Chest::actualRender(void)
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(chest), chest, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(larm), larm, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);

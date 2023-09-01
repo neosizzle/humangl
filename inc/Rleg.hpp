@@ -1,12 +1,10 @@
-#ifndef CHEST_H
-#define CHEST_H
+#ifndef RLEG_H
+#define RLEG_H
 
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 
 #include "Bodypart.hpp"
-#include "Larm.hpp"
-#include "Rarm.hpp"
 #include <iostream>
 #include <string>
 #include <map>
@@ -17,12 +15,12 @@ using std::stack;
 using std::vector;
 using std::cout;
 
-class Chest : public Bodypart {
+class Rleg : public Bodypart {
     private:
         void actualRender(void);
     public:
-        Chest(stack<Bodypart *> *bodyStack);
-        ~Chest();
+        Rleg(stack<Bodypart *> *bodyStack);
+        ~Rleg();
         void draw(void);
 };
 
