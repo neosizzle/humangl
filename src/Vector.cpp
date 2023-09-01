@@ -96,6 +96,45 @@ Vector Vector::operator=(Vector right)
 	return *this;
 }
 
+Vector Vector::operator*(float mag)
+{
+	std::vector<float> res_arr;
+	float* v1_arr = this->value_ptr();
+	float length = this->_dims;
+
+	for (size_t i = 0; i < length; i++)
+		res_arr.push_back(v1_arr[i] * mag);
+
+	Vector newMat(this->get_dims(), res_arr);
+	return newMat;
+}
+
+Vector Vector::operator+=(Vector right)
+{
+	Vector newVect = *this + right;
+	float *vect = newVect.value_ptr();
+	int size = newVect.get_dims();
+
+	// copy elements
+	for (size_t i = 0; i < size; i++)
+		this->_arr[i] = vect[i];
+
+	return *this;
+}
+
+Vector Vector::operator-=(Vector right)
+{
+	Vector newVect = *this - right;
+	float *vect = newVect.value_ptr();
+	int size = newVect.get_dims();
+
+	// copy elements
+	for (size_t i = 0; i < size; i++)
+		this->_arr[i] = vect[i];
+
+	return *this;
+}
+
 Vector::Vector(const Vector &right)
 {
 	float *vect = right.value_ptr();

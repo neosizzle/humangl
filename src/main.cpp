@@ -8,6 +8,7 @@
 
 #include "Shader.hpp"
 #include "Camera.hpp"
+#include "CameraAlt.hpp"
 
 #include "Matrix.hpp"
 #include "Vector.hpp"
@@ -24,7 +25,8 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(Vector(3, {0.0f, 0.0f, 3.0f}));
+CameraOG cameraog(glm::vec3(0.0f, 0.0f, 3.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -56,8 +58,8 @@ int main()
         glm::vec3 v2(5, 6, 7);
         glm::vec3 v3(8, 9, 10);
 
-        std::cout << glm::to_string(glm::lookAt(v1, v2, v3))  << "\n";
-        std::cout << ftm::lookAt(_v1, _v2, _v3).to_string() << "\n";
+        // std::cout << glm::to_string(glm::cross(v1, v2, v3))  << "\n";
+        // std::cout << ftm::cross(_v1, _v2, _v3).to_string() << "\n";
     }
     catch(std::string e)
     {
@@ -156,25 +158,31 @@ int main()
         ourShader.setMat4("projection", projection);
 
         // camera/view transformation
-        glm::mat4 view = camera.GetViewMatrix();
-        ourShader.setMat4("view", view);
+        Matrix view = camera.GetViewMatrix();
+        // std::cout << glm::to_string(viewtest)  << "\n";
+        // std::cout << view.to_string() << "\n";
+        ourShader._setMat4("view", view);
 
         // calculate the model matrix for each object and pass it to shader before drawing
-        glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+        Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
         // model = glm::rotate(model, glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
         // angle += 1;
 
-        ourShader.setMat4("model", model);
+        ourShader._setMat4("model", model);
 
         // draw body
 
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         //glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
  
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        // glfwTerminate();
+        // return 0;
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:

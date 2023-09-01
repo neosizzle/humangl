@@ -2,9 +2,9 @@
 #define CAMERAALT_H
 
 #include <glad/glad.h>
-#include <ftm/ftm.hpp>
-#include <ftm/gtc/matrix_transform.hpp>
-#include <ftm/ext.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/ext.hpp>
 
 #include "FtMath.hpp"
 #include "Vector.hpp"
@@ -52,7 +52,7 @@ public:
 	int is_clicked;
 
     // constructor with vectors
-    Camera(Vector position = Vector(3, 0.0f), Vector up = Vector(3, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(Vector(3, {0.0f, 0.0f, -1.0f})), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+    Camera(Vector position = Vector(3, 0.0f), Vector up = Vector(3, {0.0f, 1.0f, 0.0f}), float yaw = YAW, float pitch = PITCH) : Front(Vector(3, {0.0f, 0.0f, -1.0f})), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
     {
         Position = position;
         WorldUp = up;
@@ -71,7 +71,7 @@ public:
     }
 
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
-    ftm::mat4 GetViewMatrix()
+    Matrix GetViewMatrix()
     {
         return ftm::lookAt(Position, Position + Front, Up);
     }
@@ -138,9 +138,9 @@ private:
     {
         // calculate the new Front vector
         Vector front(3, {
-            cos(ftm::radians(Yaw)) * cos(ftm::radians(Pitch)),
-            sin(ftm::radians(Pitch)),
-            sin(ftm::radians(Yaw)) * cos(ftm::radians(Pitch))
+            (float)cos(ftm::radians(Yaw)) * (float)cos(ftm::radians(Pitch)),
+            (float)sin(ftm::radians(Pitch)),
+            (float)sin(ftm::radians(Yaw)) * (float)cos(ftm::radians(Pitch))
         });
         Front = ftm::normalize(front);
         // also re-calculate the Right and Up vector

@@ -26,7 +26,11 @@ public:
 	
 	Vector operator =(Vector right);
 	Vector operator +(Vector right);
+	Vector operator +=(Vector right);
 	Vector operator -(Vector right);
+	Vector operator -=(Vector right);
+
+	Vector operator *(float mag);
 };
 
 #endif  //!__VECTOR__H__

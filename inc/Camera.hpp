@@ -10,23 +10,23 @@
    
 
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
-enum Camera_Movement {
-    FORWARD,
-    BACKWARD,
-    LEFT,
-    RIGHT
+enum _Camera_Movement {
+    _FORWARD,
+    _BACKWARD,
+    _LEFT,
+    _RIGHT
 };
 
 // Default camera values
-const float YAW         = -90.0f;
-const float PITCH       =  0.0f;
-const float SPEED       =  0.05f;
-const float SENSITIVITY =  0.1f;
-const float ZOOM        =  45.0f;
+const float _YAW         = -90.0f;
+const float _PITCH       =  0.0f;
+const float _SPEED       =  0.05f;
+const float _SENSITIVITY =  0.1f;
+const float _ZOOM        =  45.0f;
 
 
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
-class Camera
+class CameraOG
 {
 public:
     // camera Attributes
@@ -49,7 +49,7 @@ public:
 	int is_clicked;
 
     // constructor with vectors
-    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+    CameraOG(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = _YAW, float pitch = _PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(_SPEED), MouseSensitivity(_SENSITIVITY), Zoom(_ZOOM)
     {
         Position = position;
         WorldUp = up;
@@ -58,7 +58,7 @@ public:
         updateCameraVectors();
     }
     // constructor with scalar values
-    Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+    CameraOG(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(_SPEED), MouseSensitivity(_SENSITIVITY), Zoom(_ZOOM)
     {
         Position = glm::vec3(posX, posY, posZ);
         WorldUp = glm::vec3(upX, upY, upZ);
@@ -74,16 +74,16 @@ public:
     }
 
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
-    void ProcessKeyboard(Camera_Movement direction)
+    void ProcessKeyboard(_Camera_Movement direction)
     {
         float velocity = MovementSpeed;
-        if (direction == FORWARD)
+        if (direction == _FORWARD)
 			Position += Front * velocity;
-        if (direction == BACKWARD)
+        if (direction == _BACKWARD)
             Position -= Front * velocity;
-        if (direction == LEFT)
+        if (direction == _LEFT)
             Position -= Right * velocity;
-        if (direction == RIGHT)
+        if (direction == _RIGHT)
             Position += Right * velocity;
     }
 
@@ -130,7 +130,7 @@ public:
 	}
 
 private:
-    // calculates the front vector from the Camera's (updated) Euler Angles
+    // calculates the front vector from the CameraOG's (updated) Euler Angles
     void updateCameraVectors()
     {
         // calculate the new Front vector
