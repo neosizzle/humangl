@@ -99,6 +99,19 @@ namespace ftm
 
 		return Matrix(4, new_mags);
 	}
+
+	Matrix perspective(float fovY, float aspect, float near, float far)
+	{
+		float tanHalfFovY = tan(fovY / 2);
+		Matrix result(4, 0.0f);
+		result.value_ptr()[0] = 1 / (aspect * tanHalfFovY);
+		result.value_ptr()[5] = 1 / (tanHalfFovY);
+		result.value_ptr()[10] = - (far / (far - near));
+		result.value_ptr()[11] = -1;
+		result.value_ptr()[14] = 2 * - ((far * near) / (far - near));
+		return result;
+	}
+
 }//ftm
 
 

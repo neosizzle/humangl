@@ -154,13 +154,11 @@ int main()
         glUseProgram(ourShader.ID);
 
         // pass projection matrix to shader (note that in this case it could change every frame)
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        ourShader.setMat4("projection", projection);
+        Matrix _projection = ftm::perspective(ftm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        ourShader._setMat4("projection", _projection);
 
         // camera/view transformation
         Matrix view = camera.GetViewMatrix();
-        // std::cout << glm::to_string(viewtest)  << "\n";
-        // std::cout << view.to_string() << "\n";
         ourShader._setMat4("view", view);
 
         // calculate the model matrix for each object and pass it to shader before drawing
@@ -181,8 +179,6 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
 
-        // glfwTerminate();
-        // return 0;
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
