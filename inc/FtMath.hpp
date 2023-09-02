@@ -100,6 +100,9 @@ namespace ftm
 		return Matrix(4, new_mags);
 	}
 
+	/**
+	 * generates perspective matrix
+	*/
 	Matrix perspective(float fovY, float aspect, float near, float far)
 	{
 		float tanHalfFovY = tan(fovY / 2);
@@ -110,6 +113,124 @@ namespace ftm
 		result.value_ptr()[11] = -1;
 		result.value_ptr()[14] = 2 * - ((far * near) / (far - near));
 		return result;
+	}
+
+	/**
+	 * Apply scale transformation to original matrix using
+	 * The vector as scales
+	*/
+	Matrix scale(Matrix original, Vector scales)
+	{
+		if (original.get_dims() != 4 || scales.get_dims() != 3)
+			throw std::string("scale(Matrix original, Vector scales): Invalid input");
+
+		float *scales_arr = scales.value_ptr();
+		float *original_arr = original.value_ptr();
+
+		original_arr[0] *= scales_arr[0];
+		original_arr[5] *= scales_arr[1];
+		original_arr[10] *= scales_arr[2];
+
+		return original;
+	}
+
+	/**
+	 * Apply translate transformation to original matrix using
+	 * The vector as steps
+	*/
+	Matrix translate(Matrix original, Vector steps)
+	{
+		if (original.get_dims() != 4 || steps.get_dims() != 3)
+			throw std::string("translate(Matrix original, Vector steps): Invalid input");
+
+		float *steps_arr = steps.value_ptr();
+		float *original_arr = original.value_ptr();
+
+		original_arr[12] = (steps_arr[0] * original_arr[0]);
+		original_arr[13] = (steps_arr[1] * original_arr[5]);
+		original_arr[14] = (steps_arr[2] * original_arr[10]);
+
+		return original;
+	}
+
+	/**
+	 * Apply rotate transformation to original matrix
+	*/
+	Matrix rotate(Matrix original, float angle, Vector axis)
+	{
+		if (original.get_dims() != 4 || axis.get_dims() != 3)
+			throw std::string("rotate(Matrix original, float angle, Vector axis): Invalid input");
+
+		Vector axis_normed = normalize(axis);
+		float a = angle;
+		float c = cos(a);
+		float s = sin(a);
+		Vector temp_matr = axis_normed * (1 - c);
+		float *temp_arr = temp_matr.value_ptr();
+		float *axis_arr = axis_normed.value_ptr();
+		float *og_arr = original.value_ptr();
+		int size = original.get_dims() * original.get_dims();
+		std::vector<float> rotate_matrix;
+		std::vector<float> result_matrix;
+
+		// generate rotation matrix using axis
+		rotate_matrix.push_back(c +  temp_arr[0] * axis_arr[0]);
+		rotate_matrix.push_back(temp_arr[0] * axis_arr[1] + s * axis_arr[2]);
+		rotate_matrix.push_back(temp_arr[0] * axis_arr[2] - s * axis_arr[1]);
+		rotate_matrix.push_back(0);
+
+		rotate_matrix.push_back(temp_arr[1] * axis_arr[0] - s * axis_arr[2]);
+		rotate_matrix.push_back(c + temp_arr[1] * axis_arr[1]);
+		rotate_matrix.push_back(temp_arr[1] * axis_arr[2] + s * axis_arr[0]);
+		rotate_matrix.push_back(0);
+
+		rotate_matrix.push_back(temp_arr[2] * axis_arr[0] + s * axis_arr[1]);
+		rotate_matrix.push_back(temp_arr[2] * axis_arr[1] - s * axis_arr[0]);
+		rotate_matrix.push_back(c + temp_arr[2] * axis_arr[2]);
+		rotate_matrix.push_back(0);
+
+		rotate_matrix.push_back(0.0f);
+		rotate_matrix.push_back(0.0f);
+		rotate_matrix.push_back(0.0f);
+		rotate_matrix.push_back(0.0f);
+
+		// apply rotation to og matrix
+        std::vector<float> res_mags;
+		// generate rows
+		for (size_t curr_row = 0; curr_row < 3; curr_row++)
+		{
+			// for each row
+			std::vector<float> res_row;
+			for (size_t curr_col = 0; curr_col < 4; curr_col++)
+			{
+				// for each column
+				res_row.push_back(0);
+				// loop through curr row matrix B (rot matrix)
+				for (size_t b_idx = 0, col_count = 0; b_idx < 4; b_idx++, col_count += 4)
+				{
+					// for each col in mat B, access index [colCount + currRow]
+					// in matrix A (og matrix)
+					int a_col = curr_col + col_count;
+					int b_col = b_idx + (curr_row * 4);
+					res_row[res_row.size() - 1] += og_arr[a_col] * rotate_matrix[b_col];
+					
+					// increment colCount by 4
+				}
+			}
+			
+			// add to result matrix
+			for (size_t i = 0; i < res_row.size(); i++)
+				res_mags.push_back(res_row[i]);
+		}
+
+		// add last row to result values
+		for (size_t i = 0; i < 4; i++)
+		{
+			res_mags.push_back(og_arr[i + (4 * 3)]);
+		}
+		
+		
+		return Matrix(4, res_mags);
 	}
 
 }//ftm

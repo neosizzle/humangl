@@ -50,16 +50,36 @@ int main()
     // test
     try
     {
-        Vector _v1(3, {2, 3, 4});
-        Vector _v2(3, {5, 6, 7});
-        Vector _v3(3, {8, 9, 10});
+        // glm::vec3 v(1.0f);
+        // float a = 180;
+        // float c = cos(a);
+        // float s = sin(a);
 
-        glm::vec3 v1(2, 3, 4);
-        glm::vec3 v2(5, 6, 7);
-        glm::vec3 v3(8, 9, 10);
+        // glm::vec3 axis(glm::normalize(v));
+        // glm::vec3 temp(axis * (1.0f));
+        // glm::mat4 Rotate(0);
 
-        // std::cout << glm::to_string(glm::cross(v1, v2, v3))  << "\n";
-        // std::cout << ftm::cross(_v1, _v2, _v3).to_string() << "\n";
+        // Rotate[0][0] = c + temp[0] * axis[0];
+        // std::cout << c << " " << temp[0] << " " << axis[0] << "\n";
+        // std::cout << glm::to_string(axis) << "\n";
+
+        Matrix _v1(4, {
+            1.0f,  2.0f,  3.0f, 4.0f, 
+            1.0f,  2.0f,  3.0f, 4.0f, 
+            1.0f,  2.0f,  3.0f, 4.0f, 
+            1.0f,  2.0f,  3.0f, 4.0f, 
+        });
+
+        float aaa[16] = {
+            1.0f,  2.0f,  3.0f, 4.0f, 
+            1.0f,  2.0f,  3.0f, 4.0f, 
+            1.0f,  2.0f,  3.0f, 4.0f, 
+            1.0f,  2.0f,  3.0f, 4.0f, 
+        };
+        glm::mat4 v1 = glm::make_mat4(aaa);
+
+        std::cout << glm::to_string(glm::rotate(v1, 180.0f, glm::vec3(1, 2, 3)))  << "\n";
+        std::cout << ftm::rotate(_v1, 180.0f, Vector(3, {1, 2, 3})).to_string()  << "\n";
     }
     catch(std::string e)
     {
