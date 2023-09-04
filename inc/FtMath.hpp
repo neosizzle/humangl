@@ -1,6 +1,8 @@
 #ifndef __FTMATH__H__
 #define __FTMATH__H__
+#include "Matrix.hpp"
 #include "Vector.hpp"
+#include <iostream>
 
 namespace ftm
 {
@@ -218,7 +220,7 @@ namespace ftm
 				}
 			}
 			
-			std::cout << "A " << og_matrix.to_string() << "\nB ";
+			std::cout << "A " << original.to_string() << "\nB ";
 			for (size_t i = 0; i < rotate_matrix.size(); i++)
 			{
 				std::cout << rotate_matrix[i] << " ";

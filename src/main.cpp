@@ -10,8 +10,6 @@
 #include "Camera.hpp"
 #include "CameraAlt.hpp"
 
-#include "Matrix.hpp"
-#include "Vector.hpp"
 #include "FtMath.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
