@@ -4,6 +4,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 
+#include "Matrix.hpp"
+#include "Vector.hpp"
+#include "FtMath.hpp"
+
 #include <string>
 #include <map>
 #include <vector>
@@ -160,9 +164,9 @@ class Animation
         std::map<std::string, std::vector<KeyframeScale> >  keyframes_scale;
         std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate;
 
-        glm::mat4 interpolate_translate(float delta_time, std::string body_part);
-        glm::mat4 interpolate_scale(float delta_time, std::string body_part);
-        glm::mat4 interpolate_rotate(float delta_time, std::string body_part);
+        Matrix interpolate_translate(float delta_time, std::string body_part);
+        Matrix interpolate_scale(float delta_time, std::string body_part);
+        Matrix interpolate_rotate(float delta_time, std::string body_part);
 
         template<typename Keyframe>
         float get_kf_percentage(std::vector<Keyframe> kf_vect, Keyframe& curr_kf, Keyframe& next_kf);
@@ -176,7 +180,7 @@ class Animation
         /**
          * get_next_frame - interpolates and returns the next frame of current animation vector < map<bodypart name, transformation> >
          * */
-        std::map<std::string, glm::mat4> get_next_frame(float delta_time);
+        std::map<std::string, Matrix> get_next_frame(float delta_time);
 
         // DEV
         void test(float delta_time);
@@ -190,6 +194,5 @@ class Animation
             float duration
         );
         ~Animation();
-    };
-
+};
 #endif

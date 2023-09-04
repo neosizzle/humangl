@@ -77,12 +77,12 @@ float Animation::get_kf_percentage(std::vector<Keyframe> kf_vect, Keyframe& curr
  * interpolate_translate - Interpolates a translation matrix using weighted average
 */
 // output = (1 - ratio) * prev kf + ratio * nextkf
-glm::mat4 Animation::interpolate_translate(float delta_time, std::string body_part)
+Matrix Animation::interpolate_translate(float delta_time, std::string body_part)
 {
     KeyframeTranslate next_kf;
     KeyframeTranslate curr_kf;
     float kf_percentage = 0.0f;
-    glm::mat4 m_iden(1.0f);
+    Matrix m_iden(4, 1.0f);
 
     std::vector<KeyframeTranslate> kf_vect = this->keyframes_translate[body_part];
     kf_percentage = this->get_kf_percentage(kf_vect, curr_kf, next_kf);
@@ -105,19 +105,19 @@ glm::mat4 Animation::interpolate_translate(float delta_time, std::string body_pa
     // std::cout << "output " << glm::to_string(output) << "\n";
     // std::cout << "\n";
     
-    return glm::translate(m_iden, glm::vec3(x_output, y_output, z_output));
+    return ftm::translate(m_iden, Vector(3, {x_output, y_output, z_output}));
 }
 
 /**
  * interpolate_scale - Interpolates a scale matrix using weighted average
 */
 // output = (1 - ratio) * prev kf + ratio * nextkf
-glm::mat4 Animation::interpolate_scale(float delta_time, std::string body_part)
+Matrix Animation::interpolate_scale(float delta_time, std::string body_part)
 {
     KeyframeScale next_kf;
     KeyframeScale curr_kf;
     float kf_percentage = 0.0f;
-    glm::mat4 m_iden(1.0f);
+    Matrix m_iden(4, 1.0f);
 
     std::vector<KeyframeScale> kf_vect = this->keyframes_scale[body_part];
     kf_percentage = this->get_kf_percentage(kf_vect, curr_kf, next_kf);
@@ -137,15 +137,15 @@ glm::mat4 Animation::interpolate_scale(float delta_time, std::string body_part)
     // std::cout << "output " << glm::to_string(m_iden) << "\n";
     // std::cout << "\n";
     
-    return glm::scale(m_iden, glm::vec3(x_output, y_output, z_output));
+    return ftm::scale(m_iden, Vector(3, {x_output, y_output, z_output}));
 }
 
-glm::mat4 Animation::interpolate_rotate(float delta_time, std::string body_part)
+Matrix Animation::interpolate_rotate(float delta_time, std::string body_part)
 {
     KeyframeRotate next_kf;
     KeyframeRotate curr_kf;
     float kf_percentage = 0.0f;
-    glm::mat4 m_iden(1.0f);
+    Matrix m_iden(4, 1.0f);
 
     std::vector<KeyframeRotate> kf_vect = this->keyframes_rotate[body_part];
     kf_percentage = this->get_kf_percentage(kf_vect, curr_kf, next_kf);
@@ -156,15 +156,15 @@ glm::mat4 Animation::interpolate_rotate(float delta_time, std::string body_part)
     // TODO custom math library should support matrix lerping
     // x component
     const float x_output = (1 - kf_percentage) * curr_kf.degree_x + kf_percentage * next_kf.degree_x;
-    glm::mat4 x_component = glm::rotate(m_iden, glm::radians(x_output), glm::vec3(1.0f, 0.0f, 0.0f));
+    Matrix x_component = ftm::rotate(m_iden, ftm::radians(x_output), Vector(3, {1.0f, 0.0f, 0.0f}));
 
     // y component
     const float y_output = (1 - kf_percentage) * curr_kf.degree_y + kf_percentage * next_kf.degree_y;
-    glm::mat4 y_component = glm::rotate(m_iden, glm::radians(y_output), glm::vec3(0.0f, 1.0f, 0.0f));
+    Matrix y_component = ftm::rotate(m_iden, ftm::radians(y_output), Vector(3, {0.0f, 1.0f, 0.0f}));
 
     // z component
     const float z_output = (1 - kf_percentage) * curr_kf.degree_z + kf_percentage * next_kf.degree_z;
-    glm::mat4 z_component = glm::rotate(m_iden, glm::radians(z_output), glm::vec3(0.0f, 0.0f, 1.0f));
+    Matrix z_component = ftm::rotate(m_iden, ftm::radians(z_output), Vector(3, {0.0f, 0.0f, 1.0f}));
 
     // std::cout << "curr_kf " << curr_kf << "\n";
     // std::cout << "next_kf " << next_kf << "\n";
@@ -176,12 +176,12 @@ glm::mat4 Animation::interpolate_rotate(float delta_time, std::string body_part)
     return x_component * y_component * z_component;
 }
 
-std::map<std::string, glm::mat4> Animation::get_next_frame(float delta_time)
+std::map<std::string, Matrix> Animation::get_next_frame(float delta_time)
 {
-    std::map<std::string, glm::mat4> res;
-    glm::mat4 translate_interpolated;
-    glm::mat4 scale_interpolated;
-    glm::mat4 rotate_interpolated;
+    std::map<std::string, Matrix> res;
+    Matrix translate_interpolated;
+    Matrix scale_interpolated;
+    Matrix rotate_interpolated;
 
     // loop through body parts
     for (int i = 0; i < this->body_parts.size(); i++) {
@@ -197,7 +197,7 @@ std::map<std::string, glm::mat4> Animation::get_next_frame(float delta_time)
         rotate_interpolated = this->interpolate_rotate(delta_time, body_part);
 
         // combine interpolations
-        glm::mat4 combined = scale_interpolated * translate_interpolated * rotate_interpolated;  
+        Matrix combined = scale_interpolated * translate_interpolated * rotate_interpolated;  
         res.insert({body_part, combined});
 
     }
