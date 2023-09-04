@@ -218,6 +218,13 @@ namespace ftm
 				}
 			}
 			
+			std::cout << "A " << og_matrix.to_string() << "\nB ";
+			for (size_t i = 0; i < rotate_matrix.size(); i++)
+			{
+				std::cout << rotate_matrix[i] << " ";
+			}
+			
+
 			// add to result matrix
 			for (size_t i = 0; i < res_row.size(); i++)
 				res_mags.push_back(res_row[i]);

@@ -70,15 +70,15 @@ int main()
             1.0f,  2.0f,  3.0f, 4.0f, 
         });
 
-        float aaa[16] = {
-            1.0f,  2.0f,  3.0f, 4.0f, 
-            1.0f,  2.0f,  3.0f, 4.0f, 
-            1.0f,  2.0f,  3.0f, 4.0f, 
-            1.0f,  2.0f,  3.0f, 4.0f, 
-        };
-        glm::mat4 v1 = glm::make_mat4(aaa);
+        // float aaa[16] = {
+        //     1.0f,  2.0f,  3.0f, 4.0f, 
+        //     1.0f,  2.0f,  3.0f, 4.0f, 
+        //     1.0f,  2.0f,  3.0f, 4.0f, 
+        //     1.0f,  2.0f,  3.0f, 4.0f, 
+        // };
+        // glm::mat4 v1 = glm::make_mat4(aaa);
 
-        std::cout << glm::to_string(glm::rotate(v1, 180.0f, glm::vec3(1, 2, 3)))  << "\n";
+        // std::cout << glm::to_string(glm::rotate(v1, 180.0f, glm::vec3(1, 2, 3)))  << "\n";
         std::cout << ftm::rotate(_v1, 180.0f, Vector(3, {1, 2, 3})).to_string()  << "\n";
     }
     catch(std::string e)

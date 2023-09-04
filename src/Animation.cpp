@@ -173,7 +173,9 @@ Matrix Animation::interpolate_rotate(float delta_time, std::string body_part)
     // std::cout << "output " << glm::to_string(z_component) << "\n";
     // std::cout << "\n";
     
-    return x_component * y_component * z_component;
+    return x_component;
+    // TODO change
+    // return x_component * y_component * z_component;
 }
 
 std::map<std::string, Matrix> Animation::get_next_frame(float delta_time)
@@ -197,7 +199,9 @@ std::map<std::string, Matrix> Animation::get_next_frame(float delta_time)
         rotate_interpolated = this->interpolate_rotate(delta_time, body_part);
 
         // combine interpolations
-        Matrix combined = scale_interpolated * translate_interpolated * rotate_interpolated;  
+        Matrix combined = scale_interpolated;
+        // TODO change
+        // Matrix combined = scale_interpolated * translate_interpolated * rotate_interpolated;  
         res.insert({body_part, combined});
 
     }
