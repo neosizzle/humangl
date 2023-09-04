@@ -1,13 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/string_cast.hpp>
 #include <iostream>
 
 #include "Shader.hpp"
-#include "Camera.hpp"
 #include "CameraAlt.hpp"
 
 #include "FtMath.hpp"
@@ -24,7 +19,6 @@ const unsigned int SCR_HEIGHT = 600;
 
 // camera
 Camera camera(Vector(3, {0.0f, 0.0f, 3.0f}));
-CameraOG cameraog(glm::vec3(0.0f, 0.0f, 3.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -33,8 +27,105 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
+// dev test area
+#include "Animation.hpp"
+Animation dev_fn()
+{
+    std::vector<std::string> body_parts;
+    Matrix m_iden(4, 1.0f);
+
+    body_parts.push_back("bp_1");
+    // create translation keyframes for 1 bp
+    std::map<std::string, std::vector<KeyframeTranslate> > translation_keyframes;
+    std::vector<KeyframeTranslate> kfs_1;
+    kfs_1.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f
+    });
+    kfs_1.push_back({
+        -1.0f,
+        0.0f,
+        0.0f,
+        1.0f
+    });
+    kfs_1.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        2.0f
+    });
+    translation_keyframes.insert({"bp_1", kfs_1});
+
+    // create scaling keyframes
+    std::map<std::string, std::vector<KeyframeScale> > scale_keyframes;
+    std::vector<KeyframeScale> kfs_2;
+    kfs_2.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        0.0f
+    });
+    kfs_2.push_back({
+        2.5f,
+        2.5f,
+        2.5f,
+        1.0f
+    });
+    kfs_2.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        2.0f
+    });
+    scale_keyframes.insert({"bp_1", kfs_2});
+
+    // crete rotation keyframes
+    std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate;
+    std::vector<KeyframeRotate> kfs_3;
+    kfs_3.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f,
+    });
+    kfs_3.push_back({
+        0.0f,
+        0.0f,
+        180.0f,
+        1.0f,
+    });
+        kfs_3.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        2.0f,
+    });
+    keyframes_rotate.insert({"bp_1", kfs_3});
+
+    // insert bp keyframes into a vector
+    Animation anim(
+        body_parts,
+        translation_keyframes,
+        scale_keyframes,
+        keyframes_rotate,
+        2.0f
+    );
+
+    // std::cout << glm::to_string( glm::rotate(m_iden, 180.0f, glm::vec3(0.0f, 0.0f, 1.0f))) << "\n";
+    // for(size_t i = 0; i < 101; i++)
+    // {
+    //    std::map<std::string, glm::mat4> frame = anim.get_next_frame(0.01f);
+    // //    std::cout << glm::to_string(frame["bp_1"]) << "\n";
+    // }
+    return anim;
+}
+
 int main()
 {
+    // dev fn
+    Animation anim = dev_fn();
     // glfw: initialize and configure
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -44,49 +135,6 @@ int main()
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-
-    // test
-    try
-    {
-        // glm::vec3 v(1.0f);
-        // float a = 180;
-        // float c = cos(a);
-        // float s = sin(a);
-
-        // glm::vec3 axis(glm::normalize(v));
-        // glm::vec3 temp(axis * (1.0f));
-        // glm::mat4 Rotate(0);
-
-        // Rotate[0][0] = c + temp[0] * axis[0];
-        // std::cout << c << " " << temp[0] << " " << axis[0] << "\n";
-        // std::cout << glm::to_string(axis) << "\n";
-
-        Matrix _v1(4, {
-            1.0f,  2.0f,  3.0f, 4.0f, 
-            1.0f,  2.0f,  3.0f, 4.0f, 
-            1.0f,  2.0f,  3.0f, 4.0f, 
-            1.0f,  2.0f,  3.0f, 4.0f, 
-        });
-
-        // float aaa[16] = {
-        //     1.0f,  2.0f,  3.0f, 4.0f, 
-        //     1.0f,  2.0f,  3.0f, 4.0f, 
-        //     1.0f,  2.0f,  3.0f, 4.0f, 
-        //     1.0f,  2.0f,  3.0f, 4.0f, 
-        // };
-        // glm::mat4 v1 = glm::make_mat4(aaa);
-
-        // std::cout << glm::to_string(glm::rotate(v1, 180.0f, glm::vec3(1, 2, 3)))  << "\n";
-        std::cout << ftm::rotate(_v1, 180.0f, Vector(3, {1, 2, 3})).to_string()  << "\n";
-    }
-    catch(std::string e)
-    {
-        std::cout << e << '\n';
-    }
-
-
-    // end test
-
     // glfw window creation
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
@@ -173,18 +221,19 @@ int main()
 
         // pass projection matrix to shader (note that in this case it could change every frame)
         Matrix _projection = ftm::perspective(ftm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        ourShader._setMat4("projection", _projection);
+        ourShader.setMat4("projection", _projection);
 
         // camera/view transformation
         Matrix view = camera.GetViewMatrix();
-        ourShader._setMat4("view", view);
+        ourShader.setMat4("view", view);
 
         // calculate the model matrix for each object and pass it to shader before drawing
         Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
-        // model = glm::rotate(model, glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
-        // angle += 1;
+        // apply animations
+        std::map<std::string, Matrix> frame = anim.get_next_frame(deltaTime);
+        model = frame["bp_1"] * model;
 
-        ourShader._setMat4("model", model);
+        ourShader.setMat4("model", model);
 
         // draw body
 

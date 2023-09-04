@@ -1,4 +1,5 @@
 #include "Matrix.hpp"
+#include <iostream>
 
 Matrix::Matrix()
 {
@@ -38,7 +39,7 @@ Matrix::Matrix(int size, float init_value) : _dims(size) {
 Matrix::~Matrix()
 {
 	if (this->_arr)
-		delete this->_arr;
+		delete[] this->_arr;
 }
 
 float *Matrix::value_ptr() const
@@ -115,9 +116,11 @@ Matrix Matrix::operator=(Matrix right)
 	int size = right.get_dims();
 
 	this->_dims = size;
-	this->_arr = new float[size];
 	size *= size;
-	for (size_t i = 0; i < size; i++)
+	if (this->_arr)
+		delete[] this->_arr;
+	this->_arr = new float[size];
+		for (size_t i = 0; i < size; i++)
 		this->_arr[i] = vect[i];
 
 	return *this;
@@ -162,6 +165,46 @@ Matrix Matrix::operator-=(Matrix right)
 		this->_arr[i] = vect[i];
 
 	return *this;
+}
+
+Matrix Matrix::operator*(Matrix right)
+{
+	std::vector<float> res_arr;
+
+	if (this->_dims != right.get_dims())
+		throw std::string("Matrix::operator*(Matrix right): Different sizes");
+
+	// generate rows
+	for (size_t curr_row = 0; curr_row < this->_dims; curr_row++)
+	{
+		std::vector<float> res_row;
+		// generate columns
+		for (size_t curr_col = 0; curr_col < this->_dims; curr_col++)
+		{
+			float res_val = 0.0f;
+
+			// get starting row index for mat A
+			int curr_row_a = curr_row * this->_dims;
+
+			// get starting col index for mat B
+			int curr_col_b = curr_col;
+
+			// do the dot product thingy on A's row and B's column
+			for (size_t i = 0; i < this->_dims; i++)
+			{
+				res_val += this->_arr[curr_row_a] * right.value_ptr()[curr_col_b];
+				++curr_row_a;
+				curr_col_b += this->_dims;
+			}
+			res_row.push_back(res_val);
+		}
+		// add rows to res_arr
+		for (size_t i = 0; i < res_row.size(); i++)
+			res_arr.push_back(res_row[i]);
+	}
+
+	Matrix newMat(this->get_dims(), res_arr);
+	return newMat;
 }
 
 Matrix::Matrix(const Matrix &right)

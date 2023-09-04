@@ -28,6 +28,7 @@ public:
 	Matrix operator +=(Matrix right);
 	Matrix operator -(Matrix right);
 	Matrix operator -=(Matrix right);
+	Matrix operator *(Matrix right);
 
 	Matrix operator *(float mag);
 };

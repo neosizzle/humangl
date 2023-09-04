@@ -1,9 +1,6 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-#include <glm/glm.hpp>
-#include <glm/gtx/string_cast.hpp>
-
 #include "FtMath.hpp"
 
 #include <string>
@@ -20,7 +17,7 @@
 // Animation dev_fn()
 // {
 //     std::vector<std::string> body_parts;
-//     glm::mat4 m_iden(1.0f);
+//     Matrix m_iden(4, 1.0f);
 
 //     body_parts.push_back("bp_1");
 //     // create translation keyframes for 1 bp
@@ -84,7 +81,7 @@
 //         180.0f,
 //         1.0f,
 //     });
-//      kfs_3.push_back({
+//         kfs_3.push_back({
 //         0.0f,
 //         0.0f,
 //         0.0f,

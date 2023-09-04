@@ -25,7 +25,7 @@ Vector::Vector(int size, int init_value) : _dims(size) {
 Vector::~Vector()
 {
 	if (this->_arr)
-		delete this->_arr;
+		delete[] this->_arr;
 }
 
 std::string Vector::to_string()
@@ -89,6 +89,8 @@ Vector Vector::operator=(Vector right)
 	int size = right.get_dims();
 
 	this->_dims = size;
+	if (this->_arr)
+		delete[] this->_arr;
 	this->_arr = new float[size];
 	for (size_t i = 0; i < size; i++)
 		this->_arr[i] = vect[i];
