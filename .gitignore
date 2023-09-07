@@ -1,2 +1,5 @@
 humangl
 build/*.o
+libglfw.3.3.dylib
+libglfw.3.dylib
+libglfw.dylib
