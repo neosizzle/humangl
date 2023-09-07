@@ -1,10 +1,10 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef CAMERAALT_H
+#define CAMERAALT_H
 
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/ext.hpp>
+
+#include "FtMath.hpp"
+#include "Vector.hpp"
 
 #include <vector>
    
@@ -30,11 +30,11 @@ class Camera
 {
 public:
     // camera Attributes
-    glm::vec3 Position;
-    glm::vec3 Front;
-    glm::vec3 Up;
-    glm::vec3 Right;
-    glm::vec3 WorldUp;
+    Vector Position;
+    Vector Front;
+    Vector Up;
+    Vector Right;
+    Vector WorldUp;
 
     // euler Angles
     float Yaw;
@@ -49,7 +49,7 @@ public:
 	int is_clicked;
 
     // constructor with vectors
-    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+    Camera(Vector position = Vector(3, 0.0f), Vector up = Vector(3, {0.0f, 1.0f, 0.0f}), float yaw = YAW, float pitch = PITCH) : Front(Vector(3, {0.0f, 0.0f, -1.0f})), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
     {
         Position = position;
         WorldUp = up;
@@ -58,19 +58,19 @@ public:
         updateCameraVectors();
     }
     // constructor with scalar values
-    Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+    Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(Vector(3, {0.0f, 0.0f, -1.0f})), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
     {
-        Position = glm::vec3(posX, posY, posZ);
-        WorldUp = glm::vec3(upX, upY, upZ);
+        Position = Vector(3, {posX, posY, posZ});
+        WorldUp = Vector(3, {upX, upY, upZ});
         Yaw = yaw;
         Pitch = pitch;
         updateCameraVectors();
     }
 
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
-    glm::mat4 GetViewMatrix()
+    Matrix GetViewMatrix()
     {
-        return glm::lookAt(Position, Position + Front, Up);
+        return ftm::lookAt(Position, Position + Front, Up);
     }
 
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
@@ -134,14 +134,15 @@ private:
     void updateCameraVectors()
     {
         // calculate the new Front vector
-        glm::vec3 front;
-        front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-        front.y = sin(glm::radians(Pitch));
-        front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-        Front = glm::normalize(front);
+        Vector front(3, {
+            (float)cos(ftm::radians(Yaw)) * (float)cos(ftm::radians(Pitch)),
+            (float)sin(ftm::radians(Pitch)),
+            (float)sin(ftm::radians(Yaw)) * (float)cos(ftm::radians(Pitch))
+        });
+        Front = ftm::normalize(front);
         // also re-calculate the Right and Up vector
-        Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-        Up    = glm::normalize(glm::cross(Right, Front));
+        Right = ftm::normalize(ftm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+        Up    = ftm::normalize(ftm::cross(Right, Front));
     }
 };
 #endif
