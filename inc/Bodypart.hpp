@@ -9,6 +9,9 @@
 #include <map>
 #include <vector>
 #include <stack>
+#include "Animation.hpp"
+#include "FtMath.hpp"
+#include "Shader.hpp"
 
 using std::stack;
 using std::vector;
@@ -19,10 +22,10 @@ class Bodypart {
     protected:
         unsigned int VBO, VAO, EBO;
         stack<Bodypart *> *_bodyStack;
-        virtual void actualRender(void) = 0;
+        virtual void actualRender() = 0;
     public:
         virtual ~Bodypart(){}
-        virtual void draw(void) = 0;
+        virtual void draw(Animation &anim, Shader &ourShader) = 0;
 };
 
 #endif

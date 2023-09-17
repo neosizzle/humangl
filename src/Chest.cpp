@@ -18,7 +18,7 @@ Chest::~Chest()
     glDeleteBuffers(1, &EBO);
 }
 
-void Chest::draw(void)
+void Chest::draw(Animation &anim, Shader &ourShader)
 {
     vector<Bodypart *> parts =
     {
@@ -28,15 +28,23 @@ void Chest::draw(void)
     for (int i = 0; i < parts.size(); i++)
     {
         _bodyStack->push(parts[i]);
-        _bodyStack->top()->draw();
+        _bodyStack->top()->draw(anim, ourShader);
         _bodyStack->pop();
         delete parts[i];
     }
+
+    Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
+    // apply animations
+    std::map<std::string, Matrix> frame = anim.get_next_frame(anim.getDeltaTime());
+    // model = frame["bp_1"] * model;
+    ourShader.setMat4("model", model);
+
     this->actualRender();
 }
 
 void Chest::actualRender(void)
 {
+    // Chest but actually it looks like a head currently
     float chest[] =
         {
             0.5f, 1.5f, 0.1f,    // top right

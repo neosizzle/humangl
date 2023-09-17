@@ -23,7 +23,7 @@ class Chest : public Bodypart {
     public:
         Chest(stack<Bodypart *> *bodyStack);
         ~Chest();
-        void draw(void);
+        void draw(Animation &anim, Shader &ourShader);
 };
 
 #endif

@@ -209,8 +209,22 @@ std::map<std::string, Matrix> Animation::get_next_frame(float delta_time)
 }
 
 
-void Animation::test(float delta_time)
+float Animation::getDeltaTime()
 {
+    return (_deltaTime);
+}
 
-    
+float Animation::getLastFrame()
+{
+    return (_lastFrame);
+}
+
+void Animation::setDeltaTime(float deltaTime)
+{
+    _deltaTime = deltaTime;
+}
+
+void Animation::setLastFrame(float lastFrame)
+{
+    _lastFrame = lastFrame;
 }

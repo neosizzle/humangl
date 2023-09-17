@@ -29,7 +29,7 @@ Body::~Body()
 {
 }
 
-void Body::draw(void)
+void Body::draw(Animation &anim, Shader &ourShader)
 {
     // We start from Hip
     vector<Bodypart *> parts =
@@ -40,7 +40,7 @@ void Body::draw(void)
     for (int i = 0; i < parts.size(); i++)
     {
         _bodyStack.push(parts[i]);
-        _bodyStack.top()->draw();
+        _bodyStack.top()->draw(anim, ourShader);
         _bodyStack.pop();
         delete parts[i];
     }

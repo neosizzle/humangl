@@ -12,6 +12,9 @@
 #include <stack>
 
 #include "Hip.hpp"
+#include "Animation.hpp"
+#include "FtMath.hpp"
+#include "Shader.hpp"
 
 using std::stack;
 using std::vector;
@@ -24,7 +27,7 @@ class Body {
     public:
         Body();
         ~Body();
-        void draw(void);
+        void draw(Animation &anim, Shader &ourShader);
 };
 
 #endif

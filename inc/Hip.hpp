@@ -20,11 +20,12 @@ using std::cout;
 
 class Hip : public Bodypart {
     private:
-        void actualRender(void);
+        void actualRender();
+        // timing
     public:
         Hip(stack<Bodypart *> *bodyStack);
         ~Hip();
-        void draw(void);
+        void draw(Animation &anim, Shader &ourShader);
 };
 
 #endif

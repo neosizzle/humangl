@@ -177,8 +177,8 @@ int main()
     {
         // per-frame time logic
         float currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
+        anim.setDeltaTime(currentFrame - anim.getLastFrame());
+        anim.setLastFrame(currentFrame);
 
         // input
         processInput(window);
@@ -198,17 +198,7 @@ int main()
         Matrix view = camera.GetViewMatrix();
         ourShader.setMat4("view", view);
 
-        // calculate the model matrix for each object and pass it to shader before drawing
-        Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
-        // apply animations
-        std::map<std::string, Matrix> frame = anim.get_next_frame(deltaTime);
-        model = frame["bp_1"] * model;
-
-        ourShader.setMat4("model", model);
-
-        // draw body
-
-        Body.draw();
+        Body.draw(anim, ourShader);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);

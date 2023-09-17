@@ -21,7 +21,7 @@ class Rarm : public Bodypart {
     public:
         Rarm(stack<Bodypart *> *bodyStack);
         ~Rarm();
-        void draw(void);
+        void draw(Animation &anim, Shader &ourShader);
 };
 
 #endif

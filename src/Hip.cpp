@@ -18,25 +18,33 @@ Hip::~Hip()
     glDeleteBuffers(1, &EBO);
 }
 
-void Hip::draw(void)
+void Hip::draw(Animation &anim, Shader &ourShader)
 {
     vector<Bodypart *> parts =
     {
         new Chest(_bodyStack),
-        new Lleg(_bodyStack),
-        new Rleg(_bodyStack)
+        // new Lleg(_bodyStack),
+        // new Rleg(_bodyStack)
     };
     for (int i = 0; i < parts.size(); i++)
     {
         _bodyStack->push(parts[i]);
-        _bodyStack->top()->draw();
+        _bodyStack->top()->draw(anim, ourShader);
         _bodyStack->pop();
         delete parts[i];
     }
+
+    // calculate the model matrix for each object and pass it to shader before drawing
+    Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
+    // apply animations
+    std::map<std::string, Matrix> frame = anim.get_next_frame(anim.getDeltaTime());
+    model = frame["bp_1"] * model;
+    ourShader.setMat4("model", model);
+
     this->actualRender();
 }
 
-void Hip::actualRender(void)
+void Hip::actualRender()
 {
     float hip[] =
     {

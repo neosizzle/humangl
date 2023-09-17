@@ -166,6 +166,9 @@ class Animation
         template<typename Keyframe>
         float get_kf_percentage(std::vector<Keyframe> kf_vect, Keyframe& curr_kf, Keyframe& next_kf);
 
+        float _deltaTime = 0;
+        float _lastFrame = 0;
+
     public:
         void set_keyframes_translate(std::map<std::string, std::vector<KeyframeTranslate> > keyframes_translate);
         void set_keyframes_scale(std::map<std::string, std::vector<KeyframeScale> > keyframes_scale);
@@ -178,8 +181,11 @@ class Animation
         std::map<std::string, Matrix> get_next_frame(float delta_time);
 
         // DEV
-        void test(float delta_time);
+        float getDeltaTime(void);
+        float getLastFrame(void); 
 
+        void setDeltaTime(float deltaTime);
+        void setLastFrame(float lastFrame);
 
         Animation(
             std::vector<std::string> body_parts,

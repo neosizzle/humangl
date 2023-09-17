@@ -21,7 +21,7 @@ class Larm : public Bodypart {
     public:
         Larm(stack<Bodypart *> *bodyStack);
         ~Larm();
-        void draw(void);
+        void draw(Animation &anim, Shader &ourShader);
 };
 
 #endif
