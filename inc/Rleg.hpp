@@ -21,7 +21,7 @@ class Rleg : public Bodypart {
     public:
         Rleg(stack<Bodypart *> *bodyStack);
         ~Rleg();
-        void draw(void);
+        void draw(Animation &anim, Shader &ourShader);
 };
 
 #endif

@@ -23,8 +23,8 @@ void Hip::draw(Animation &anim, Shader &ourShader)
     vector<Bodypart *> parts =
     {
         new Chest(_bodyStack),
-        // new Lleg(_bodyStack),
-        // new Rleg(_bodyStack)
+        new Lleg(_bodyStack),
+        new Rleg(_bodyStack)
     };
     for (int i = 0; i < parts.size(); i++)
     {

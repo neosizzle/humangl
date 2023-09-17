@@ -21,7 +21,7 @@ class Lleg : public Bodypart {
     public:
         Lleg(stack<Bodypart *> *bodyStack);
         ~Lleg();
-        void draw(void);
+        void draw(Animation &anim, Shader &ourShader);
 };
 
 #endif

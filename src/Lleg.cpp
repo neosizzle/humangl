@@ -18,8 +18,14 @@ Lleg::~Lleg()
     glDeleteBuffers(1, &EBO);
 }
 
-void Lleg::draw(void)
+void Lleg::draw(Animation &anim, Shader &ourShader)
 {
+    Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
+    // apply animations
+    std::map<std::string, Matrix> frame = anim.get_next_frame(anim.getDeltaTime());
+    // model = frame["bp_1"] * model;
+    ourShader.setMat4("model", model);
+
     this->actualRender();
 }
 
