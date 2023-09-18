@@ -198,6 +198,7 @@ int main()
         Matrix view = camera.GetViewMatrix();
         ourShader.setMat4("view", view);
 
+        anim.get_next_frame(anim.getDeltaTime());
         Body.draw(anim, ourShader);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

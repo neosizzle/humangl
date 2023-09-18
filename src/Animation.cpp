@@ -205,18 +205,24 @@ std::map<std::string, Matrix> Animation::get_next_frame(float delta_time)
     if (this->curr_progress > this->duration)
         this->curr_progress = 0;
 
+    _frame = res;
     return res;
 }
 
 
-float Animation::getDeltaTime()
+float Animation::getDeltaTime(void)
 {
     return (_deltaTime);
 }
 
-float Animation::getLastFrame()
+float Animation::getLastFrame(void)
 {
     return (_lastFrame);
+}
+
+std::map<std::string, Matrix> Animation::get_current_frame(void)
+{
+    return (_frame);
 }
 
 void Animation::setDeltaTime(float deltaTime)

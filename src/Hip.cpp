@@ -37,8 +37,7 @@ void Hip::draw(Animation &anim, Shader &ourShader)
     // calculate the model matrix for each object and pass it to shader before drawing
     Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
     // apply animations
-    std::map<std::string, Matrix> frame = anim.get_next_frame(anim.getDeltaTime());
-    model = frame["bp_1"] * model;
+    model = anim.get_current_frame()["bp_1"] * model;
     ourShader.setMat4("model", model);
 
     this->actualRender();

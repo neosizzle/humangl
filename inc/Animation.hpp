@@ -168,6 +168,7 @@ class Animation
 
         float _deltaTime = 0;
         float _lastFrame = 0;
+        std::map<std::string, Matrix> _frame;
 
     public:
         void set_keyframes_translate(std::map<std::string, std::vector<KeyframeTranslate> > keyframes_translate);
@@ -182,7 +183,8 @@ class Animation
 
         // DEV
         float getDeltaTime(void);
-        float getLastFrame(void); 
+        float getLastFrame(void);
+        std::map<std::string, Matrix> get_current_frame(void);
 
         void setDeltaTime(float deltaTime);
         void setLastFrame(float lastFrame);
