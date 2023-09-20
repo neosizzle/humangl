@@ -1,8 +1,9 @@
 #ifndef __OPTIONS__H__
 #define __OPTIONS__H__
 
-#include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
+
+#include "Vector.hpp"
 
 #include <map>
 #include <string>
@@ -19,6 +20,15 @@
 // << "\n";
 
 /**
+ * Controls
+ * 
+ * Left and right - switch body parts
+ * Up and down - switch color
+ * Plus and minus - chagne size
+ * 
+*/
+
+/**
  * Options - represent the configuration for rendering
  * 
  * sizes <body_part, size> - size for each body part
@@ -32,9 +42,9 @@ class Options
 {
 private:
 	std::map<std::string, float> sizes;
-	std::map<std::string, glm::vec4> colors;
+	std::map<std::string, Vector> colors;
 	std::vector<std::string> body_parts;
-	std::vector<glm::vec4> color_options;
+	std::vector<Vector> color_options;
 	std::string selected_body_part;
 	int previous_key_pressed;
 
@@ -43,7 +53,7 @@ public:
 	~Options();
 
 	std::map<std::string, float> get_sizes();
-	std::map<std::string, glm::vec4> get_colors();
+	std::map<std::string, Vector> get_colors();
 	std::string get_selected_bp();
 
 	void handle_key(GLFWwindow *window);

@@ -1,4 +1,5 @@
 #include "Options.hpp"
+
 #include <algorithm>
 
 template <typename T>
@@ -30,9 +31,9 @@ Options::Options(){
 
 	this->selected_body_part = "hip_joint";
 
-	this->color_options.push_back(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-	this->color_options.push_back(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-	this->color_options.push_back(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+	this->color_options.push_back(Vector(4, {0.0f, 0.0f, 1.0f, 1.0f}));
+	this->color_options.push_back(Vector(4, {1.0f, 0.0f, 0.0f, 1.0f}));
+	this->color_options.push_back(Vector(4, {0.0f, 1.0f, 0.0f, 1.0f}));
 
 	for (std::string body_part : this->body_parts) {
        this->sizes.insert(std::make_pair(body_part, 1.0f));
@@ -44,7 +45,7 @@ Options::~Options(){}
 
 std::map<std::string, float> Options::get_sizes(){return this->sizes;}
 
-std::map<std::string, glm::vec4> Options::get_colors(){return this->colors;}
+std::map<std::string, Vector> Options::get_colors(){return this->colors;}
 
 std::string Options::get_selected_bp(){return this->selected_body_part;}
 

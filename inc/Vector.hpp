@@ -30,6 +30,8 @@ public:
 	Vector operator -(Vector right);
 	Vector operator -=(Vector right);
 
+	bool operator ==(const Vector right) const;
+
 	Vector operator *(float mag);
 };
 
