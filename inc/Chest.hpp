@@ -5,6 +5,7 @@
 #include <glm/gtx/string_cast.hpp>
 
 #include "Bodypart.hpp"
+#include "Head.hpp"
 #include "Larm.hpp"
 #include "Rarm.hpp"
 #include <iostream>

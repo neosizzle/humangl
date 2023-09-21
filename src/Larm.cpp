@@ -31,10 +31,10 @@ void Larm::actualRender(void)
 {
     float larm[] =
         {
-            -0.5f,  0.1f, 0.1f,  // top right
-            -0.5f, -0.1f, 0.1f,  // bottom right
-            -1.3f, -0.1f, 0.1f,  // bottom left
-            -1.3f, 0.1f, 0.1f,   // top left 
+            -0.5f,  0.35f, 0.1f,  // top right
+            -0.5f, 0.15f, 0.1f,  // bottom right
+            -1.3f, 0.15f, 0.1f,  // bottom left
+            -1.3f, 0.35f, 0.1f,   // top left 
             -0.5f, 0.5f, -0.9f, // top left behind
             0.5f, 0.5f, -0.9f,   // top right behind
             -0.5f, -0.5f, -0.9f, // bottom left behind
