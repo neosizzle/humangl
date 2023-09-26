@@ -36,6 +36,8 @@ Animation dev_fn()
     Matrix m_iden(4, 1.0f);
 
     body_parts.push_back("bp_1");
+    body_parts.push_back("bp_2");
+
     // create translation keyframes for 1 bp
     std::map<std::string, std::vector<KeyframeTranslate> > translation_keyframes;
     std::vector<KeyframeTranslate> kfs_1;
@@ -59,6 +61,22 @@ Animation dev_fn()
     });
     translation_keyframes.insert({"bp_1", kfs_1});
 
+    // translation keyframes for bp 2
+    std::vector<KeyframeTranslate> kfs_1_bp2;
+    kfs_1_bp2.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f
+    });
+    kfs_1_bp2.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        2.0f
+    });
+    translation_keyframes.insert({"bp_2", kfs_1_bp2});
+
     // create scaling keyframes
     std::map<std::string, std::vector<KeyframeScale> > scale_keyframes;
     std::vector<KeyframeScale> kfs_2;
@@ -81,6 +99,7 @@ Animation dev_fn()
         2.0f
     });
     scale_keyframes.insert({"bp_1", kfs_2});
+    scale_keyframes.insert({"bp_2", kfs_2});
 
     // crete rotation keyframes
     std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate;
@@ -104,6 +123,22 @@ Animation dev_fn()
         2.0f,
     });
     keyframes_rotate.insert({"bp_1", kfs_3});
+
+    // rotate bp2
+    std::vector<KeyframeRotate> kfs_3_bp2;
+    kfs_3_bp2.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f,
+    });
+    kfs_3_bp2.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        2.0f,
+    });
+    keyframes_rotate.insert({"bp_2", kfs_3_bp2});
 
     // insert bp keyframes into a vector
     Animation anim(

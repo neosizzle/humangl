@@ -22,10 +22,11 @@ class Bodypart {
     protected:
         unsigned int VBO, VAO, EBO;
         stack<Bodypart *> *_bodyStack;
+        Matrix _model;
         virtual void actualRender() = 0;
     public:
         virtual ~Bodypart(){}
-        virtual void draw(Animation &anim, Shader &ourShader) = 0;
+        virtual void draw(Animation &anim, Shader &ourShader, float x, float y) = 0;
 };
 
 #endif

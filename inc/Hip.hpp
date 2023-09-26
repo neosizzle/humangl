@@ -23,9 +23,9 @@ class Hip : public Bodypart {
         void actualRender();
         // timing
     public:
-        Hip(stack<Bodypart *> *bodyStack);
+        Hip(stack<Bodypart *> *bodyStack, Matrix model);
         ~Hip();
-        void draw(Animation &anim, Shader &ourShader);
+        void draw(Animation &anim, Shader &ourShader, float x, float y);
 };
 
 #endif

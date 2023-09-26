@@ -6,9 +6,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-Hip::Hip(stack<Bodypart *> *bodyStack)
+Hip::Hip(stack<Bodypart *> *bodyStack, Matrix model)
 {
     _bodyStack = bodyStack;
+    _model = model;
 }
 
 Hip::~Hip()
@@ -18,28 +19,29 @@ Hip::~Hip()
     glDeleteBuffers(1, &EBO);
 }
 
-void Hip::draw(Animation &anim, Shader &ourShader)
+void Hip::draw(Animation &anim, Shader &ourShader, float x, float y)
 {
+    // calculate the model matrix for each object and pass it to shader before drawing
+    // Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
+    // apply animations
+    _model = anim.get_current_frame()["bp_1"];
+
     vector<Bodypart *> parts =
     {
-        new Chest(_bodyStack),
-        new Lleg(_bodyStack),
-        new Rleg(_bodyStack)
+        // new Chest(_bodyStack),
+        // new Lleg(_bodyStack),
+        new Rleg(_bodyStack, _model)
     };
     for (int i = 0; i < parts.size(); i++)
     {
         _bodyStack->push(parts[i]);
-        _bodyStack->top()->draw(anim, ourShader);
+        _bodyStack->top()->draw(anim, ourShader, 0.5f, -0.5f);
         _bodyStack->pop();
         delete parts[i];
     }
 
-    // calculate the model matrix for each object and pass it to shader before drawing
-    Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
-    // apply animations
-    // model = anim.get_current_frame()["bp_1"] * model;
-    ourShader.setMat4("model", model);
-
+    // std::cout << model.to_string() << "\n";
+    ourShader.setMat4("model", _model);
     this->actualRender();
 }
 

@@ -31,16 +31,18 @@ Body::~Body()
 
 void Body::draw(Animation &anim, Shader &ourShader)
 {
+
+    Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
     // We start from Hip
     vector<Bodypart *> parts =
     {
-        new Hip(&_bodyStack)
+        new Hip(&_bodyStack, model)
     };
 
     for (int i = 0; i < parts.size(); i++)
     {
         _bodyStack.push(parts[i]);
-        _bodyStack.top()->draw(anim, ourShader);
+        _bodyStack.top()->draw(anim, ourShader, 0, 0);
         _bodyStack.pop();
         delete parts[i];
     }

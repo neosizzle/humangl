@@ -6,9 +6,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-Rleg::Rleg(stack<Bodypart *> *bodyStack)
+Rleg::Rleg(stack<Bodypart *> *bodyStack, Matrix model)
 {
     _bodyStack = bodyStack;
+    _model = model;
 }
 
 Rleg::~Rleg()
@@ -18,12 +19,13 @@ Rleg::~Rleg()
     glDeleteBuffers(1, &EBO);
 }
 
-void Rleg::draw(Animation &anim, Shader &ourShader)
+void Rleg::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
-    Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
-    // model = frame["bp_1"] * model;
-    ourShader.setMat4("model", model);
+    // model = model * anim.get_current_frame()["bp_3"];
+    ourShader.setMat4("model", _model);
 
+    x = newx;
+    y = newy;
     this->actualRender();
 }
 
@@ -31,10 +33,10 @@ void Rleg::actualRender(void)
 {
     float rleg[] =
         {
-            0.5f,  -0.5f, 0.1f,  // top right
-            0.5f, -1.5f, 0.1f,  // bottom right
-            0.3f, -1.5f, 0.1f,  // bottom left
-            0.3f,  -0.5f, 0.1f,   // top left 
+            x,  y, 0.1f,  // top right
+            x, y - 1, 0.1f,  // bottom right
+            x - 0.2f, y - 1, 0.1f,  // bottom left
+            x - 0.2f,  y, 0.1f,   // top left 
             -0.5f, 0.5f, -0.9f, // top left behind
             0.5f, 0.5f, -0.9f,   // top right behind
             -0.5f, -0.5f, -0.9f, // bottom left behind
