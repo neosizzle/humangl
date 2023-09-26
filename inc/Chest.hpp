@@ -22,9 +22,9 @@ class Chest : public Bodypart {
     private:
         void actualRender(void);
     public:
-        Chest(stack<Bodypart *> *bodyStack);
+        Chest(stack<Bodypart *> *bodyStack, Matrix model);
         ~Chest();
-        void draw(Animation &anim, Shader &ourShader);
+        void draw(Animation &anim, Shader &ourShader, float newx, float newy);
 };
 
 #endif

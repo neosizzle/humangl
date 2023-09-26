@@ -21,7 +21,7 @@ Rleg::~Rleg()
 
 void Rleg::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
-    // model = model * anim.get_current_frame()["bp_3"];
+    // _model = model * anim.get_current_frame()["bp_3"];
     ourShader.setMat4("model", _model);
 
     x = newx;

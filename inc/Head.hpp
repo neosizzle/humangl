@@ -19,9 +19,9 @@ class Head : public Bodypart {
     private:
         void actualRender(void);
     public:
-        Head(stack<Bodypart *> *bodyStack);
+        Head(stack<Bodypart *> *bodyStack, Matrix model);
         ~Head();
-        void draw(Animation &anim, Shader &ourShader);
+        void draw(Animation &anim, Shader &ourShader, float newx, float newy);
 };
 
 #endif

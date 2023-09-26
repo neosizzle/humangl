@@ -6,9 +6,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-Lleg::Lleg(stack<Bodypart *> *bodyStack)
+Lleg::Lleg(stack<Bodypart *> *bodyStack, Matrix model)
 {
     _bodyStack = bodyStack;
+    _model = model;
 }
 
 Lleg::~Lleg()
@@ -18,11 +19,10 @@ Lleg::~Lleg()
     glDeleteBuffers(1, &EBO);
 }
 
-void Lleg::draw(Animation &anim, Shader &ourShader)
+void Lleg::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
-    Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
     // model = anim.get_current_frame()["bp_1"] * model;
-    ourShader.setMat4("model", model);
+    ourShader.setMat4("model", _model);
 
     this->actualRender();
 }

@@ -19,9 +19,9 @@ class Larm : public Bodypart {
     private:
         void actualRender(void);
     public:
-        Larm(stack<Bodypart *> *bodyStack);
+        Larm(stack<Bodypart *> *bodyStack, Matrix model);
         ~Larm();
-        void draw(Animation &anim, Shader &ourShader);
+        void draw(Animation &anim, Shader &ourShader, float newx, float newy);
 };
 
 #endif

@@ -19,9 +19,9 @@ class Lleg : public Bodypart {
     private:
         void actualRender(void);
     public:
-        Lleg(stack<Bodypart *> *bodyStack);
+        Lleg(stack<Bodypart *> *bodyStack, Matrix model);
         ~Lleg();
-        void draw(Animation &anim, Shader &ourShader);
+        void draw(Animation &anim, Shader &ourShader, float newx, float newy);
 };
 
 #endif

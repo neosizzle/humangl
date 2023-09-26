@@ -6,9 +6,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-Larm::Larm(stack<Bodypart *> *bodyStack)
+Larm::Larm(stack<Bodypart *> *bodyStack, Matrix model)
 {
     _bodyStack = bodyStack;
+    _model = model;
 }
 
 Larm::~Larm()
@@ -18,11 +19,10 @@ Larm::~Larm()
     glDeleteBuffers(1, &EBO);
 }
 
-void Larm::draw(Animation &anim, Shader &ourShader)
+void Larm::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
-    Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
     // model = frame["bp_1"] * model;
-    ourShader.setMat4("model", model);
+    ourShader.setMat4("model", _model);
 
     this->actualRender();
 }

@@ -19,9 +19,9 @@ class Rarm : public Bodypart {
     private:
         void actualRender(void);
     public:
-        Rarm(stack<Bodypart *> *bodyStack);
+        Rarm(stack<Bodypart *> *bodyStack, Matrix model);
         ~Rarm();
-        void draw(Animation &anim, Shader &ourShader);
+        void draw(Animation &anim, Shader &ourShader, float newx, float newy);
 };
 
 #endif

@@ -18,8 +18,6 @@ using std::cout;
 class Rleg : public Bodypart {
     private:
         void actualRender(void);
-        float x;
-        float y;
     public:
         Rleg(stack<Bodypart *> *bodyStack, Matrix model);
         ~Rleg();

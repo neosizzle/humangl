@@ -22,6 +22,8 @@ class Bodypart {
     protected:
         unsigned int VBO, VAO, EBO;
         stack<Bodypart *> *_bodyStack;
+        float x;
+        float y;
         Matrix _model;
         virtual void actualRender() = 0;
     public:
