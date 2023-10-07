@@ -137,6 +137,19 @@ Vector Vector::operator-=(Vector right)
 	return *this;
 }
 
+bool Vector::operator==(const Vector right) const
+{
+	float* v1_arr = this->value_ptr();
+	float* v2_arr = right.value_ptr();
+	
+	if (this->_dims != right.get_dims())
+		throw std::string("Vector::operator==(Vector right): Different sizes");
+
+	for (size_t i = 0; i < this->_dims; i++)
+		if (v1_arr[i] != v2_arr[i]) return false;
+	return true;
+}
+
 Vector::Vector(const Vector &right)
 {
 	float *vect = right.value_ptr();

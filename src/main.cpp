@@ -1,9 +1,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <GL/glut.h>
 #include <iostream>
 
 #include "Shader.hpp"
 #include "CameraAlt.hpp"
+
+#include "glm/gtx/string_cast.hpp"
+#include "Options.hpp"
 
 #include "FtMath.hpp"
 
@@ -26,6 +30,9 @@ bool firstMouse = true;
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
+
+// options
+Options options;
 
 // dev test area
 #include "Animation.hpp"
@@ -198,8 +205,17 @@ int main()
     // uncomment this call to draw in wireframe polygons.
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    // DEV
-    float angle = 20.0f;
+
+    // print option help
+    std::cout << R"(
+    /**
+     * Controls
+     * 
+     * Left and right - switch body parts
+     * Up and down - switch color
+     * Plus and minus - change size
+     * 
+    */)" << std::endl;
 
     // render loop
     while (!glfwWindowShouldClose(window))
@@ -227,6 +243,13 @@ int main()
         Matrix view = camera.GetViewMatrix();
         ourShader.setMat4("view", view);
 
+        // get options
+        // std::cout
+        // << "bp " << options.get_selected_bp()
+        // << " color " << options.get_colors()[options.get_selected_bp()].to_string()
+        // << " size " << options.get_sizes()[options.get_selected_bp()]
+        // << "\n";
+
         // calculate the model matrix for each object and pass it to shader before drawing
         Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
         // apply animations
@@ -239,8 +262,7 @@ int main()
 
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         //glDrawArrays(GL_TRIANGLES, 0, 6);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);    
  
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
@@ -273,6 +295,9 @@ void processInput(GLFWwindow *window)
         camera.ProcessKeyboard(LEFT);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT);
+
+    // handle options
+    options.handle_key(window);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
