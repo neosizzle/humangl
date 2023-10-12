@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Shader.hpp"
+#include "Body.hpp"
 #include "CameraAlt.hpp"
 
 #include "glm/gtx/string_cast.hpp"
@@ -42,6 +43,8 @@ Animation dev_fn()
     Matrix m_iden(4, 1.0f);
 
     body_parts.push_back("bp_1");
+    body_parts.push_back("bp_2");
+
     // create translation keyframes for 1 bp
     std::map<std::string, std::vector<KeyframeTranslate> > translation_keyframes;
     std::vector<KeyframeTranslate> kfs_1;
@@ -65,6 +68,22 @@ Animation dev_fn()
     });
     translation_keyframes.insert({"bp_1", kfs_1});
 
+    // translation keyframes for bp 2
+    std::vector<KeyframeTranslate> kfs_1_bp2;
+    kfs_1_bp2.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f
+    });
+    kfs_1_bp2.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        2.0f
+    });
+    translation_keyframes.insert({"bp_2", kfs_1_bp2});
+
     // create scaling keyframes
     std::map<std::string, std::vector<KeyframeScale> > scale_keyframes;
     std::vector<KeyframeScale> kfs_2;
@@ -87,6 +106,7 @@ Animation dev_fn()
         2.0f
     });
     scale_keyframes.insert({"bp_1", kfs_2});
+    scale_keyframes.insert({"bp_2", kfs_2});
 
     // crete rotation keyframes
     std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate;
@@ -110,6 +130,22 @@ Animation dev_fn()
         2.0f,
     });
     keyframes_rotate.insert({"bp_1", kfs_3});
+
+    // rotate bp2
+    std::vector<KeyframeRotate> kfs_3_bp2;
+    kfs_3_bp2.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f,
+    });
+    kfs_3_bp2.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        2.0f,
+    });
+    keyframes_rotate.insert({"bp_2", kfs_3_bp2});
 
     // insert bp keyframes into a vector
     Animation anim(
@@ -173,37 +209,7 @@ int main()
     // create our body
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
-    float vertices[] = {
-         0.5f,  0.5f, 0.1f,  // top right
-         0.5f, -0.5f, 0.1f,  // bottom right
-        -0.5f, -0.5f, 0.1f,  // bottom left
-        -0.5f,  0.5f, 0.1f   // top left 
-    };
-    unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 3,  // first Triangle
-        1, 2, 3   // second Triangle
-    };
-    unsigned int VBO, VAO, EBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-	// unbind array now, rebind it later
-    glBindVertexArray(0); 
-
-    // uncomment this call to draw in wireframe polygons.
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    Body Body;
 
 
     // print option help
@@ -222,8 +228,8 @@ int main()
     {
         // per-frame time logic
         float currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
+        anim.setDeltaTime(currentFrame - anim.getLastFrame());
+        anim.setLastFrame(currentFrame);
 
         // input
         processInput(window);
@@ -243,27 +249,9 @@ int main()
         Matrix view = camera.GetViewMatrix();
         ourShader.setMat4("view", view);
 
-        // get options
-        // std::cout
-        // << "bp " << options.get_selected_bp()
-        // << " color " << options.get_colors()[options.get_selected_bp()].to_string()
-        // << " size " << options.get_sizes()[options.get_selected_bp()]
-        // << "\n";
+        anim.get_next_frame(anim.getDeltaTime());
+        Body.draw(anim, ourShader);
 
-        // calculate the model matrix for each object and pass it to shader before drawing
-        Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
-        // apply animations
-        std::map<std::string, Matrix> frame = anim.get_next_frame(deltaTime);
-        model = frame["bp_1"] * model;
-
-        ourShader.setMat4("model", model);
-
-        // draw body
-
-        glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        //glDrawArrays(GL_TRIANGLES, 0, 6);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);    
- 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -271,9 +259,6 @@ int main()
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
     glDeleteProgram(ourShader.ID);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
