@@ -33,10 +33,10 @@ void Rleg::actualRender(void)
 {
     float rleg[] =
         {
-            x,  y, 0.1f,  // top right
-            x, y - 1, 0.1f,  // bottom right
-            x - 0.2f, y - 1, 0.1f,  // bottom left
-            x - 0.2f,  y, 0.1f,   // top left 
+            x + 0.5f,  y - 0.125f, 0.1f,  // top right
+            x + 0.5f, y - 1.125f, 0.1f,  // bottom right
+            x + 0.3f, y - 1.125f, 0.1f,  // bottom left
+            x + 0.3f,  y - 0.125f, 0.1f,   // top left 
             -0.5f, 0.5f, -0.9f, // top left behind
             0.5f, 0.5f, -0.9f,   // top right behind
             -0.5f, -0.5f, -0.9f, // bottom left behind

@@ -1,4 +1,4 @@
-#include "Larm.hpp"
+#include "LUpperarm.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -6,35 +6,48 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-Larm::Larm(stack<Bodypart *> *bodyStack, Matrix model)
+LUpperarm::LUpperarm(stack<Bodypart *> *bodyStack, Matrix model)
 {
     _bodyStack = bodyStack;
     _model = model;
 }
 
-Larm::~Larm()
+LUpperarm::~LUpperarm()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
 }
 
-void Larm::draw(Animation &anim, Shader &ourShader, float newx, float newy)
+void LUpperarm::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
+    x = newx;
+    y = newy;
     // model = frame["bp_1"] * model;
+    vector<Bodypart *> parts =
+    {
+        new LForearm(_bodyStack, _model)
+    };
+    for (int i = 0; i < parts.size(); i++)
+    {
+        _bodyStack->push(parts[i]);
+        _bodyStack->top()->draw(anim, ourShader, x - 0.9f, y);
+        _bodyStack->pop();
+        delete parts[i];
+    }
     ourShader.setMat4("model", _model);
 
     this->actualRender();
 }
 
-void Larm::actualRender(void)
+void LUpperarm::actualRender(void)
 {
-    float larm[] =
+    float LUpperarm[] =
         {
-            -0.5f,  0.35f, 0.1f,  // top right
-            -0.5f, 0.15f, 0.1f,  // bottom right
-            -1.3f, 0.15f, 0.1f,  // bottom left
-            -1.3f, 0.35f, 0.1f,   // top left 
+            x - 0.5f, y + 0.225f, 0.1f,  // top right
+            x - 0.5f, y + 0.025f, 0.1f,  // bottom right
+            x - 0.9f, y + 0.025f, 0.1f,  // bottom left
+            x - 0.9f, y + 0.225f, 0.1f,   // top left 
             -0.5f, 0.5f, -0.9f, // top left behind
             0.5f, 0.5f, -0.9f,   // top right behind
             -0.5f, -0.5f, -0.9f, // bottom left behind
@@ -53,7 +66,7 @@ void Larm::actualRender(void)
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(larm), larm, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(LUpperarm), LUpperarm, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);

@@ -1,14 +1,10 @@
-#ifndef CHEST_H
-#define CHEST_H
+#ifndef RFOREARM_HPP
+#define RFOREARM_HPP
 
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 
 #include "Bodypart.hpp"
-#include "Head.hpp"
-#include "LUpperarm.hpp"
-#include "RUpperarm.hpp"
-#include "Rarm.hpp"
 #include <iostream>
 #include <string>
 #include <map>
@@ -19,12 +15,12 @@ using std::stack;
 using std::vector;
 using std::cout;
 
-class Chest : public Bodypart {
+class RForearm : public Bodypart {
     private:
         void actualRender(void);
     public:
-        Chest(stack<Bodypart *> *bodyStack, Matrix model);
-        ~Chest();
+        RForearm(stack<Bodypart *> *bodyStack, Matrix model);
+        ~RForearm();
         void draw(Animation &anim, Shader &ourShader, float newx, float newy);
 };
 

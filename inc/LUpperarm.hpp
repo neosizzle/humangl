@@ -1,10 +1,11 @@
-#ifndef LARM_H
-#define LARM_H
+#ifndef LUPPERARM_H
+#define LUPPERARM_H
 
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 
 #include "Bodypart.hpp"
+#include "LForearm.hpp"
 #include <iostream>
 #include <string>
 #include <map>
@@ -15,12 +16,12 @@ using std::stack;
 using std::vector;
 using std::cout;
 
-class Larm : public Bodypart {
+class LUpperarm : public Bodypart {
     private:
         void actualRender(void);
     public:
-        Larm(stack<Bodypart *> *bodyStack, Matrix model);
-        ~Larm();
+        LUpperarm(stack<Bodypart *> *bodyStack, Matrix model);
+        ~LUpperarm();
         void draw(Animation &anim, Shader &ourShader, float newx, float newy);
 };
 

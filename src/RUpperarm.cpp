@@ -1,4 +1,4 @@
-#include "Rarm.hpp"
+#include "RUpperarm.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -6,35 +6,48 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-Rarm::Rarm(stack<Bodypart *> *bodyStack, Matrix model)
+RUpperarm::RUpperarm(stack<Bodypart *> *bodyStack, Matrix model)
 {
     _bodyStack = bodyStack;
     _model = model;
 }
 
-Rarm::~Rarm()
+RUpperarm::~RUpperarm()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
 }
 
-void Rarm::draw(Animation &anim, Shader &ourShader, float newx, float newy)
+void RUpperarm::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
+    x = newx;
+    y = newy;
     // model = frame["bp_1"] * model;
+    vector<Bodypart *> parts =
+    {
+        new RForearm(_bodyStack, _model)
+    };
+    for (int i = 0; i < parts.size(); i++)
+    {
+        _bodyStack->push(parts[i]);
+        _bodyStack->top()->draw(anim, ourShader, x + 0.9f, y);
+        _bodyStack->pop();
+        delete parts[i];
+    }
     ourShader.setMat4("model", _model);
 
     this->actualRender();
 }
 
-void Rarm::actualRender(void)
+void RUpperarm::actualRender(void)
 {
-    float rarm[] =
+    float RUpperarm[] =
         {
-            1.3f,  0.35f, 0.1f,  // top right
-            1.3f, 0.15f, 0.1f,  // bottom right
-            0.5f, 0.15f, 0.1f,  // bottom left
-            0.5f, 0.35f, 0.1f,   // top left 
+            x + 0.9f,  y + 0.225f, 0.1f,  // top right
+            x + 0.9f, y + 0.025f, 0.1f,  // bottom right
+            x + 0.5f, y + 0.025f, 0.1f,  // bottom left
+            x + 0.5f, y + 0.225f, 0.1f,   // top left 
             -0.5f, 0.5f, -0.9f, // top left behind
             0.5f, 0.5f, -0.9f,   // top right behind
             -0.5f, -0.5f, -0.9f, // bottom left behind
@@ -53,7 +66,7 @@ void Rarm::actualRender(void)
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(rarm), rarm, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(RUpperarm), RUpperarm, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);

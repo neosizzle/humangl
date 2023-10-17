@@ -21,16 +21,18 @@ Chest::~Chest()
 
 void Chest::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
+    x = newx;
+    y = newy;
     vector<Bodypart *> parts =
     {
         new Head(_bodyStack, _model),
-        new Larm(_bodyStack, _model),
-        new Rarm(_bodyStack, _model)
+        new LUpperarm(_bodyStack, _model),
+        new RUpperarm(_bodyStack, _model)
     };
     for (int i = 0; i < parts.size(); i++)
     {
         _bodyStack->push(parts[i]);
-        _bodyStack->top()->draw(anim, ourShader, newx, newy);
+        _bodyStack->top()->draw(anim, ourShader, x, y + 0.5f);
         _bodyStack->pop();
         delete parts[i];
     }
@@ -46,10 +48,10 @@ void Chest::actualRender(void)
     // Chest but actually it looks like a head currently
     float chest[] =
     {
-        0.5f,  0.75f, 0.1f,  // top right
-        0.5f, -0.25f, 0.1f,  // bottom right
-        -0.5f, -0.25f, 0.1f,  // bottom left
-        -0.5f,  0.75f, 0.1f,   // top left 
+        x + 0.5f,  y + 1.125f, 0.1f,  // top right
+        x + 0.5f, y + 0.125f, 0.1f,  // bottom right
+        x - 0.5f, y + 0.125f, 0.1f,  // bottom left
+        x - 0.5f,  y + 1.125f, 0.1f,   // top left 
         -0.5f, 0.5f, -0.9f, // top left behind
         0.5f, 0.5f, -0.9f,   // top right behind
         -0.5f, -0.5f, -0.9f, // bottom left behind
