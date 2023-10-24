@@ -1,4 +1,4 @@
-#include "Lleg.hpp"
+#include "RLowerPart.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -6,35 +6,37 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-Lleg::Lleg(stack<Bodypart *> *bodyStack, Matrix model)
+RLowerPart::RLowerPart(stack<Bodypart *> *bodyStack, Matrix model)
 {
     _bodyStack = bodyStack;
     _model = model;
 }
 
-Lleg::~Lleg()
+RLowerPart::~RLowerPart()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
 }
 
-void Lleg::draw(Animation &anim, Shader &ourShader, float newx, float newy)
+void RLowerPart::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
     // model = anim.get_current_frame()["bp_1"] * model;
     ourShader.setMat4("model", _model);
+    x = newx;
+    y = newy;
 
     this->actualRender();
 }
 
-void Lleg::actualRender(void)
+void RLowerPart::actualRender(void)
 {
-    float lleg[] =
+    float RLowerPart[] =
         {
-            -0.3f,  -0.5f, 0.1f,  // top right
-            -0.3f, -1.5f, 0.1f,  // bottom right
-            -0.5f, -1.5f, 0.1f,  // bottom left
-            -0.5f,  -0.5f, 0.1f,   // top left 
+            x + 0.1f,  y - .3000f, 0.1f,  // top right
+            x + 0.1f, y - .8000f, 0.1f,  // bottom right
+            x - 0.1f, y - .8000f, 0.1f,  // bottom left
+            x - 0.1f, y  - .3000f, 0.1f,   // top left 
             -0.5f, 0.5f, -0.9f, // top left behind
             0.5f, 0.5f, -0.9f,   // top right behind
             -0.5f, -0.5f, -0.9f, // bottom left behind
@@ -53,7 +55,7 @@ void Lleg::actualRender(void)
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(lleg), lleg, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(RLowerPart), RLowerPart, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);

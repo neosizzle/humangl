@@ -1,4 +1,4 @@
-#include "Rleg.hpp"
+#include "LThigh.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -6,37 +6,49 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-Rleg::Rleg(stack<Bodypart *> *bodyStack, Matrix model)
+LThigh::LThigh(stack<Bodypart *> *bodyStack, Matrix model)
 {
     _bodyStack = bodyStack;
     _model = model;
 }
 
-Rleg::~Rleg()
+LThigh::~LThigh()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
 }
 
-void Rleg::draw(Animation &anim, Shader &ourShader, float newx, float newy)
+void LThigh::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
-    // _model = model * anim.get_current_frame()["bp_3"];
+    // model = anim.get_current_frame()["bp_1"] * model;
     ourShader.setMat4("model", _model);
-
     x = newx;
     y = newy;
+
+    vector<Bodypart *> parts =
+    {
+        new LLowerPart(_bodyStack, _model)
+    };
+    for (int i = 0; i < parts.size(); i++)
+    {
+        _bodyStack->push(parts[i]);
+        _bodyStack->top()->draw(anim, ourShader, x - 0.4f, y - .3125f);
+        _bodyStack->pop();
+        delete parts[i];
+    }
+
     this->actualRender();
 }
 
-void Rleg::actualRender(void)
+void LThigh::actualRender(void)
 {
-    float rleg[] =
+    float LThigh[] =
         {
-            x + 0.5f,  y - 0.125f, 0.1f,  // top right
-            x + 0.5f, y - 1.125f, 0.1f,  // bottom right
-            x + 0.3f, y - 1.125f, 0.1f,  // bottom left
-            x + 0.3f,  y - 0.125f, 0.1f,   // top left 
+            x - 0.3f,  y - .125f, 0.1f,  // top right
+            x -0.3f, y - .6125f, 0.1f,  // bottom right
+            x - 0.5f, y - .6125f, 0.1f,  // bottom left
+            x - 0.5f, y  - .125f, 0.1f,   // top left 
             -0.5f, 0.5f, -0.9f, // top left behind
             0.5f, 0.5f, -0.9f,   // top right behind
             -0.5f, -0.5f, -0.9f, // bottom left behind
@@ -55,7 +67,7 @@ void Rleg::actualRender(void)
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(rleg), rleg, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(LThigh), LThigh, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);

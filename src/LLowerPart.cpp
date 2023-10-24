@@ -1,4 +1,4 @@
-#include "Hip.hpp"
+#include "LLowerPart.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -6,70 +6,46 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-Hip::Hip(stack<Bodypart *> *bodyStack, Matrix model)
+LLowerPart::LLowerPart(stack<Bodypart *> *bodyStack, Matrix model)
 {
     _bodyStack = bodyStack;
     _model = model;
 }
 
-Hip::~Hip()
+LLowerPart::~LLowerPart()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
 }
 
-void Hip::draw(Animation &anim, Shader &ourShader, float x, float y)
+void LLowerPart::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
-    // calculate the model matrix for each object and pass it to shader before drawing
-    // Matrix model = Matrix(4, 1.0f); // make sure to initialize matrix to identity matrix first
-    // apply animations
-    // _model = anim.get_current_frame()["bp_1"];
-
-    vector<Bodypart *> parts =
-    {
-        new Chest(_bodyStack, _model),
-        new LThigh(_bodyStack, _model),
-        new RThigh(_bodyStack, _model)
-    };
-    for (int i = 0; i < parts.size(); i++)
-    {
-        _bodyStack->push(parts[i]);
-        _bodyStack->top()->draw(anim, ourShader, 0.0f, -0.375f);
-        _bodyStack->pop();
-        delete parts[i];
-    }
-
-    // std::cout << model.to_string() << "\n";
+    // model = anim.get_current_frame()["bp_1"] * model;
     ourShader.setMat4("model", _model);
+    x = newx;
+    y = newy;
+
     this->actualRender();
 }
 
-void Hip::actualRender()
+void LLowerPart::actualRender(void)
 {
-    float hip[] =
+    float LLowerPart[] =
         {
-            0.5f,  -0.25f, 0.1f,  // top right
-            0.5f, -0.5, 0.1f,  // bottom right
-            -0.5f, -0.5f, 0.1f,  // bottom left
-            -0.5f, -0.25f, 0.1f,   // top left 
+            x + 0.1f,  y - .3000f, 0.1f,  // top right
+            x + 0.1f, y - .8000f, 0.1f,  // bottom right
+            x - 0.1f, y - .8000f, 0.1f,  // bottom left
+            x - 0.1f, y  - .3000f, 0.1f,   // top left 
             -0.5f, 0.5f, -0.9f, // top left behind
             0.5f, 0.5f, -0.9f,   // top right behind
             -0.5f, -0.5f, -0.9f, // bottom left behind
             0.5f, -0.5f, -0.9f // bottom right behind
         };
 
-    unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 3,  // first Triangle
-        1, 2, 3,  // second Triangle
-        3, 4, 2,
-        0, 1, 5,
-        2, 6, 4,
-        1, 7, 5,
-        4, 5, 6,
-        7, 5, 6,
-        0, 3, 4,
-        4, 5, 0 
+    unsigned int indices[] = {         // note that we start from 0!
+        0, 1, 3, // first Triangle
+        1, 2, 3, // second Triangle
     };
 
     glGenVertexArrays(1, &VAO);
@@ -79,7 +55,7 @@ void Hip::actualRender()
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(hip), hip, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(LLowerPart), LLowerPart, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);

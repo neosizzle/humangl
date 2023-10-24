@@ -1,10 +1,11 @@
-#ifndef RLEG_H
-#define RLEG_H
+#ifndef RTHIGH_H
+#define RTHIGH_H
 
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 
 #include "Bodypart.hpp"
+#include "RLowerPart.hpp"
 #include <iostream>
 #include <string>
 #include <map>
@@ -15,12 +16,12 @@ using std::stack;
 using std::vector;
 using std::cout;
 
-class Rleg : public Bodypart {
+class RThigh : public Bodypart {
     private:
         void actualRender(void);
     public:
-        Rleg(stack<Bodypart *> *bodyStack, Matrix model);
-        ~Rleg();
+        RThigh(stack<Bodypart *> *bodyStack, Matrix model);
+        ~RThigh();
         void draw(Animation &anim, Shader &ourShader, float x, float y);
 };
 

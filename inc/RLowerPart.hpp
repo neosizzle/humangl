@@ -1,5 +1,5 @@
-#ifndef LLEG_H
-#define LLEG_H
+#ifndef RLOWERPART
+#define RLOWERPART
 
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -15,12 +15,12 @@ using std::stack;
 using std::vector;
 using std::cout;
 
-class Lleg : public Bodypart {
+class RLowerPart : public Bodypart {
     private:
         void actualRender(void);
     public:
-        Lleg(stack<Bodypart *> *bodyStack, Matrix model);
-        ~Lleg();
+        RLowerPart(stack<Bodypart *> *bodyStack, Matrix model);
+        ~RLowerPart();
         void draw(Animation &anim, Shader &ourShader, float newx, float newy);
 };
 

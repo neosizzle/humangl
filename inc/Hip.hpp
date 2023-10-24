@@ -6,8 +6,8 @@
 
 #include "Bodypart.hpp"
 #include "Chest.hpp"
-#include "Lleg.hpp"
-#include "Rleg.hpp"
+#include "LThigh.hpp"
+#include "RThigh.hpp"
 #include <iostream>
 #include <string>
 #include <map>
