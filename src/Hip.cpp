@@ -26,6 +26,10 @@ void Hip::draw(Animation &anim, Shader &ourShader, float x, float y)
     // apply animations
     // _model = anim.get_current_frame()["bp_1"];
 
+    std::map<std::string, Matrix> frame = anim.get_current_frame();
+    if (frame.count(_anim_key))
+        _model = frame[_anim_key] * _model;
+
     vector<Bodypart *> parts =
     {
         new Chest(_bodyStack, _model),

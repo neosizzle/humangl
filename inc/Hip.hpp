@@ -26,6 +26,7 @@ class Hip : public Bodypart {
         Hip(stack<Bodypart *> *bodyStack, Matrix model);
         ~Hip();
         void draw(Animation &anim, Shader &ourShader, float x, float y);
+        std::string _anim_key = std::string("a_hip");
 };
 
 #endif

@@ -29,6 +29,7 @@ class Bodypart {
     public:
         virtual ~Bodypart(){}
         virtual void draw(Animation &anim, Shader &ourShader, float x, float y) = 0;
+        std::string _anim_key = std::string("");
 };
 
 #endif

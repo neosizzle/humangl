@@ -24,6 +24,9 @@ void LForearm::draw(Animation &anim, Shader &ourShader, float newx, float newy)
     x = newx;
     y = newy;
     // model = frame["bp_1"] * model;
+    std::map<std::string, Matrix> frame = anim.get_current_frame();
+    if (frame.count(_anim_key))
+        _model = frame[_anim_key] * _model;
     ourShader.setMat4("model", _model);
 
     this->actualRender();

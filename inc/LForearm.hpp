@@ -22,6 +22,7 @@ class LForearm : public Bodypart {
         LForearm(stack<Bodypart *> *bodyStack, Matrix model);
         ~LForearm();
         void draw(Animation &anim, Shader &ourShader, float newx, float newy);
+        std::string _anim_key = std::string("a_lforearm");
 };
 
 #endif

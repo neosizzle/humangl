@@ -22,6 +22,7 @@ class RLowerPart : public Bodypart {
         RLowerPart(stack<Bodypart *> *bodyStack, Matrix model);
         ~RLowerPart();
         void draw(Animation &anim, Shader &ourShader, float newx, float newy);
+        std::string _anim_key = std::string("a_rlowerpart");
 };
 
 #endif

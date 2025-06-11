@@ -23,6 +23,11 @@ void Chest::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
     x = newx;
     y = newy;
+
+    std::map<std::string, Matrix> frame = anim.get_current_frame();
+    if (frame.count(_anim_key))
+        _model = frame[_anim_key] * _model;
+
     vector<Bodypart *> parts =
     {
         new Head(_bodyStack, _model),
@@ -37,7 +42,6 @@ void Chest::draw(Animation &anim, Shader &ourShader, float newx, float newy)
         delete parts[i];
     }
 
-    // model = frame["bp_1"] * model;
     ourShader.setMat4("model", _model);
 
     this->actualRender();

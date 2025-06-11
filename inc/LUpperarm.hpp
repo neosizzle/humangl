@@ -23,6 +23,8 @@ class LUpperarm : public Bodypart {
         LUpperarm(stack<Bodypart *> *bodyStack, Matrix model);
         ~LUpperarm();
         void draw(Animation &anim, Shader &ourShader, float newx, float newy);
+        std::string _anim_key = std::string("a_lupperarm");
+
 };
 
 #endif

@@ -22,6 +22,10 @@ RThigh::~RThigh()
 void RThigh::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
     // _model = model * anim.get_current_frame()["bp_3"];
+    std::map<std::string, Matrix> frame = anim.get_current_frame();
+    if (frame.count(_anim_key))
+        _model = frame[_anim_key] * _model;
+        
     ourShader.setMat4("model", _model);
     x = newx;
     y = newy;

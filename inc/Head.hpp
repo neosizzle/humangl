@@ -22,6 +22,8 @@ class Head : public Bodypart {
         Head(stack<Bodypart *> *bodyStack, Matrix model);
         ~Head();
         void draw(Animation &anim, Shader &ourShader, float newx, float newy);
+        std::string _anim_key = std::string("a_head");
+
 };
 
 #endif

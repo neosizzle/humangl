@@ -25,7 +25,9 @@ class Chest : public Bodypart {
     public:
         Chest(stack<Bodypart *> *bodyStack, Matrix model);
         ~Chest();
+
         void draw(Animation &anim, Shader &ourShader, float newx, float newy);
+        std::string _anim_key = std::string("a_chest");
 };
 
 #endif

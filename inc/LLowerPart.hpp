@@ -22,6 +22,8 @@ class LLowerPart : public Bodypart {
         LLowerPart(stack<Bodypart *> *bodyStack, Matrix model);
         ~LLowerPart();
         void draw(Animation &anim, Shader &ourShader, float newx, float newy);
+        std::string _anim_key = std::string("a_llowerpart");
+
 };
 
 #endif

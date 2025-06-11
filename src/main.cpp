@@ -168,16 +168,19 @@ int main()
 {
     // dev fn
     Animation anim = dev_fn();
+
     // glfw: initialize and configure
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
+    
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
+    // leaks: https://github.com/glfw/glfw/issues/2051 
     // glfw window creation
+    // this creates leaks
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
     {
@@ -185,13 +188,15 @@ int main()
         glfwTerminate();
         return -1;
     }
-    glfwMakeContextCurrent(window);
+
+    glfwMakeContextCurrent(window); // this causes leaks
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
     glfwSetScrollCallback(window, scroll_callback);
 
     // glad: load all OpenGL function pointers
+    // this causes leaks
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
@@ -256,6 +261,9 @@ int main()
         glfwPollEvents();
 
     }
+
+    // glfw: delete windows
+    glfwDestroyWindow(window);
 
     // optional: de-allocate all resources once they've outlived their purpose:
     glDeleteProgram(ourShader.ID);
