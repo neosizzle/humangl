@@ -9,9 +9,10 @@ OBJS= ${SRCS:.cpp=.o}
 OBJS_TARGET=${addprefix ${BUILDDIR},${subst /,_,${OBJS}}}
 UNAME := $(shell uname)
 
+# Install gl headers and glfw on ubuntu using package manager. GLM can be linked with default libm.
 ifeq ($(UNAME), Linux)
 	CPP_FLAGS = lib/glad/libglad-linux.a -lglfw -lm
-	CPP_INCS= -I${INCS_ROOT}
+	CPP_INCS= -I${INCS_ROOT} -Ilib/glad/include -Ilib/glm -Ilib/glfw
 else ifeq ($(UNAME), Darwin)
 	CPP_FLAGS = lib/glad/libglad-mac.a lib/glfw/libglfw3.a -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo 
 	CPP_INCS= -I${INCS_ROOT} -Ilib/glad/include -Ilib/glm -Ilib/glfw

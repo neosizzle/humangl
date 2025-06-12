@@ -48,19 +48,29 @@ void RUpperarm::actualRender(void)
 {
     float RUpperarm[] =
         {
-            x + 0.9f,  y + 0.225f, 0.1f,  // top right
-            x + 0.9f, y + 0.025f, 0.1f,  // bottom right
-            x + 0.5f, y + 0.025f, 0.1f,  // bottom left
-            x + 0.5f, y + 0.225f, 0.1f,   // top left 
-            -0.5f, 0.5f, -0.9f, // top left behind
-            0.5f, 0.5f, -0.9f,   // top right behind
-            -0.5f, -0.5f, -0.9f, // bottom left behind
-            0.5f, -0.5f, -0.9f // bottom right behind
+            x + 0.5f, y + 0.225f, 0.1f,  // top right
+            x + 0.5f, y + 0.025f, 0.1f,  // bottom right
+            x + 0.9f, y + 0.025f, 0.1f,  // bottom left
+            x + 0.9f, y + 0.225f, 0.1f,   // top left 
+
+            x + 0.5f, y + 0.225f, -0.1f,   // top right behind
+            x + 0.5f, y + 0.025f, -0.1f, // bottom right behind
+            x + 0.9f, y + 0.025f, -0.1f, // bottom left behind
+            x + 0.9f, y + 0.225f, -0.1f // top left behind
         };
 
-    unsigned int indices[] = {         // note that we start from 0!
+     unsigned int indices[] = {         // note that we start from 0!
         0, 1, 3, // first Triangle
         1, 2, 3, // second Triangle
+        2, 3, 7,
+        2, 6, 7,
+        4, 6, 7,
+        4, 5, 6,
+
+        0, 4, 5,
+        0, 1, 5,
+        0, 3, 4,
+        4, 5, 0
     };
 
     glGenVertexArrays(1, &VAO);
@@ -86,5 +96,5 @@ void RUpperarm::actualRender(void)
     
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         // glDrawArrays(GL_TRIANGLES, 0, 6);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, 30, GL_UNSIGNED_INT, 0);
 }

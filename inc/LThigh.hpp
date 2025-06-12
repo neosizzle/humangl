@@ -23,7 +23,7 @@ class LThigh : public Bodypart {
         LThigh(stack<Bodypart *> *bodyStack, Matrix model);
         ~LThigh();
         void draw(Animation &anim, Shader &ourShader, float newx, float newy);
-        std::string _anim_key = std::string("a_ltigh");
+        std::string _anim_key = std::string("a_lthigh");
 
 };
 

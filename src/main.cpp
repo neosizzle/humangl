@@ -5,6 +5,7 @@
 #include "Shader.hpp"
 #include "Body.hpp"
 #include "CameraAlt.hpp"
+#include "AnimationPresets.hpp"
 
 #include "glm/gtx/string_cast.hpp"
 #include "Options.hpp"
@@ -41,7 +42,7 @@ Animation dev_fn()
     std::vector<std::string> body_parts;
     Matrix m_iden(4, 1.0f);
 
-    body_parts.push_back("bp_1");
+    body_parts.push_back("a_hip");
     body_parts.push_back("bp_2");
 
     // create translation keyframes for 1 bp
@@ -65,7 +66,7 @@ Animation dev_fn()
         0.0f,
         2.0f
     });
-    translation_keyframes.insert({"bp_1", kfs_1});
+    translation_keyframes.insert({"a_hip", kfs_1});
 
     // translation keyframes for bp 2
     std::vector<KeyframeTranslate> kfs_1_bp2;
@@ -104,7 +105,7 @@ Animation dev_fn()
         1.0f,
         2.0f
     });
-    scale_keyframes.insert({"bp_1", kfs_2});
+    scale_keyframes.insert({"a_hip", kfs_2});
     scale_keyframes.insert({"bp_2", kfs_2});
 
     // crete rotation keyframes
@@ -128,7 +129,7 @@ Animation dev_fn()
         0.0f,
         2.0f,
     });
-    keyframes_rotate.insert({"bp_1", kfs_3});
+    keyframes_rotate.insert({"a_hip", kfs_3});
 
     // rotate bp2
     std::vector<KeyframeRotate> kfs_3_bp2;
@@ -154,20 +155,14 @@ Animation dev_fn()
         keyframes_rotate,
         2.0f
     );
-
-    // std::cout << glm::to_string( glm::rotate(m_iden, 180.0f, glm::vec3(0.0f, 0.0f, 1.0f))) << "\n";
-    // for(size_t i = 0; i < 101; i++)
-    // {
-    //    std::map<std::string, glm::mat4> frame = anim.get_next_frame(0.01f);
-    // //    std::cout << glm::to_string(frame["bp_1"]) << "\n";
-    // }
     return anim;
 }
 
 int main()
 {
     // dev fn
-    Animation anim = dev_fn();
+    // Animation anim = dev_fn();
+    Animation anim = get_jumping_animaton();
 
     // glfw: initialize and configure
     glfwInit();
@@ -221,8 +216,8 @@ int main()
     /**
      * Controls
      * 
-     * Left and right - switch body parts
-     * Up and down - switch color
+     * WASD - move camera
+     * Click and Drag  - 
      * Plus and minus - change size
      * 
     */)" << std::endl;

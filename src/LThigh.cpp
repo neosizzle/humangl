@@ -26,7 +26,6 @@ void LThigh::draw(Animation &anim, Shader &ourShader, float newx, float newy)
     if (frame.count(_anim_key))
         _model = frame[_anim_key] * _model;
         
-    ourShader.setMat4("model", _model);
     x = newx;
     y = newy;
 
@@ -41,7 +40,8 @@ void LThigh::draw(Animation &anim, Shader &ourShader, float newx, float newy)
         _bodyStack->pop();
         delete parts[i];
     }
-
+    
+    ourShader.setMat4("model", _model);
     this->actualRender();
 }
 
