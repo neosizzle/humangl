@@ -35,134 +35,11 @@ float lastFrame = 0.0f;
 // options
 Options options;
 
-// dev test area
-#include "Animation.hpp"
-Animation dev_fn()
-{
-    std::vector<std::string> body_parts;
-    Matrix m_iden(4, 1.0f);
-
-    body_parts.push_back("a_hip");
-    body_parts.push_back("bp_2");
-
-    // create translation keyframes for 1 bp
-    std::map<std::string, std::vector<KeyframeTranslate> > translation_keyframes;
-    std::vector<KeyframeTranslate> kfs_1;
-    kfs_1.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f
-    });
-    kfs_1.push_back({
-        -1.0f,
-        0.0f,
-        0.0f,
-        1.0f
-    });
-    kfs_1.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        2.0f
-    });
-    translation_keyframes.insert({"a_hip", kfs_1});
-
-    // translation keyframes for bp 2
-    std::vector<KeyframeTranslate> kfs_1_bp2;
-    kfs_1_bp2.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f
-    });
-    kfs_1_bp2.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        2.0f
-    });
-    translation_keyframes.insert({"bp_2", kfs_1_bp2});
-
-    // create scaling keyframes
-    std::map<std::string, std::vector<KeyframeScale> > scale_keyframes;
-    std::vector<KeyframeScale> kfs_2;
-    kfs_2.push_back({
-        1.0f,
-        1.0f,
-        1.0f,
-        0.0f
-    });
-    kfs_2.push_back({
-        2.5f,
-        2.5f,
-        2.5f,
-        1.0f
-    });
-    kfs_2.push_back({
-        1.0f,
-        1.0f,
-        1.0f,
-        2.0f
-    });
-    scale_keyframes.insert({"a_hip", kfs_2});
-    scale_keyframes.insert({"bp_2", kfs_2});
-
-    // crete rotation keyframes
-    std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate;
-    std::vector<KeyframeRotate> kfs_3;
-    kfs_3.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-    });
-    kfs_3.push_back({
-        0.0f,
-        0.0f,
-        180.0f,
-        1.0f,
-    });
-        kfs_3.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        2.0f,
-    });
-    keyframes_rotate.insert({"a_hip", kfs_3});
-
-    // rotate bp2
-    std::vector<KeyframeRotate> kfs_3_bp2;
-    kfs_3_bp2.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-    });
-    kfs_3_bp2.push_back({
-        0.0f,
-        0.0f,
-        0.0f,
-        2.0f,
-    });
-    keyframes_rotate.insert({"bp_2", kfs_3_bp2});
-
-    // insert bp keyframes into a vector
-    Animation anim(
-        body_parts,
-        translation_keyframes,
-        scale_keyframes,
-        keyframes_rotate,
-        2.0f
-    );
-    return anim;
-}
-
 int main()
 {
     // dev fn
-    // Animation anim = dev_fn();
-    Animation anim = get_jumping_animaton();
+    Animation anim = get_walking_animation();
+    // Animation anim = get_jumping_animation();
 
     // glfw: initialize and configure
     glfwInit();
@@ -217,8 +94,8 @@ int main()
      * Controls
      * 
      * WASD - move camera
-     * Click and Drag  - 
-     * Plus and minus - change size
+     * Click and Drag - look around
+     * Scroll - Zoom
      * 
     */)" << std::endl;
 

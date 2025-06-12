@@ -1,6 +1,6 @@
 #include "AnimationPresets.hpp"
 
-Animation get_jumping_animaton()
+Animation get_jumping_animation()
 {
  	std::vector<std::string> body_parts;
 
@@ -500,40 +500,299 @@ Animation get_jumping_animaton()
     return anim;
 }
 
-Animation get_walking_animaton()
+Animation get_walking_animation()
 {
 	std::vector<std::string> body_parts;
-    Matrix m_iden(4, 1.0f);
+    
+    body_parts.push_back("a_lthigh");
+    body_parts.push_back("a_lupperarm");
+    body_parts.push_back("a_rthigh");
+    body_parts.push_back("a_rupperarm");
 
-    body_parts.push_back("bp_1");
-    body_parts.push_back("bp_2");
-
-    // create translation keyframes for 1 bp
+	// translation keyframes
     std::map<std::string, std::vector<KeyframeTranslate> > translation_keyframes;
-    std::vector<KeyframeTranslate> kfs_1;
-    translation_keyframes.insert({"bp_1", kfs_1});
+    
+    // keyframes for lthigh
+    std::vector<KeyframeTranslate> translation_kf_lthigh;
+    translation_kf_lthigh.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f
+    });
+    translation_kf_lthigh.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        1.0f
+    });
+    translation_kf_lthigh.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        2.0f
+    });
+    translation_keyframes.insert({"a_lthigh", translation_kf_lthigh});
 
-    // translation keyframes for bp 2
-    std::vector<KeyframeTranslate> kfs_1_bp2;
-    translation_keyframes.insert({"bp_2", kfs_1_bp2});
+    // translation for lupperarm
+    std::vector<KeyframeTranslate> translation_kf_lupperarm;
+    translation_kf_lupperarm.push_back({
+        1.0f,
+        0.3f,
+        0.0f,
+        0.0f
+    });
+    translation_kf_lupperarm.push_back({
+        1.0f,
+        0.3f,
+        0.0f,
+        1.0f
+    });
+    translation_kf_lupperarm.push_back({
+        1.0f,
+        0.3f,
+        0.0f,
+        2.0f
+    });
+    translation_keyframes.insert({"a_lupperarm", translation_kf_lupperarm});
+
+    // keyframes for rthigh
+    std::vector<KeyframeTranslate> translation_kf_rthigh;
+    translation_kf_rthigh.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f
+    });
+    translation_kf_rthigh.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        1.0f
+    });
+    translation_kf_rthigh.push_back({
+        0.0f,
+        0.0f,
+        0.0f,
+        2.0f
+    });
+    translation_keyframes.insert({"a_rthigh", translation_kf_rthigh});
+
+    // translation for rupperarm
+    std::vector<KeyframeTranslate> translation_kf_rupperarm;
+    translation_kf_rupperarm.push_back({
+        -1.0f,
+        0.3f,
+        0.0f,
+        0.0f
+    });
+    translation_kf_rupperarm.push_back({
+        -1.0f,
+        0.3f,
+        0.0f,
+        1.0f
+    });
+    translation_kf_rupperarm.push_back({
+        -1.0f,
+        0.3f,
+        0.0f,
+        2.0f
+    });
+    translation_keyframes.insert({"a_rupperarm", translation_kf_rupperarm});
 
     // create scaling keyframes
     std::map<std::string, std::vector<KeyframeScale> > scale_keyframes;
-    std::vector<KeyframeScale> kfs_2;
-    scale_keyframes.insert({"bp_1", kfs_2});
-    scale_keyframes.insert({"bp_2", kfs_2});
+
+    // scale keyframes for lthigh
+    std::vector<KeyframeScale> scale_kf_lthigh;
+    scale_kf_lthigh.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        0.0f
+    });
+    scale_kf_lthigh.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        1.0f
+    });
+    scale_kf_lthigh.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        2.0f
+    });
+    scale_keyframes.insert({"a_lthigh", scale_kf_lthigh});
+
+        // scale keyframes for lupperarm
+    std::vector<KeyframeScale> scale_kf_lupperarm;
+    scale_kf_lupperarm.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        0.0f
+    });
+    scale_kf_lupperarm.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        1.0f
+    });
+    scale_kf_lupperarm.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        2.0f
+    });
+    scale_keyframes.insert({"a_lupperarm", scale_kf_lupperarm});
+
+    // scale keyframes for rthigh
+    std::vector<KeyframeScale> scale_kf_rthigh;
+    scale_kf_rthigh.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        0.0f
+    });
+    scale_kf_rthigh.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        1.0f
+    });
+    scale_kf_rthigh.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        2.0f
+    });
+    scale_keyframes.insert({"a_rthigh", scale_kf_rthigh});
+
+        // scale keyframes for rupperarm
+    std::vector<KeyframeScale> scale_kf_rupperarm;
+    scale_kf_rupperarm.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        0.0f
+    });
+    scale_kf_rupperarm.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        1.0f
+    });
+    scale_kf_rupperarm.push_back({
+        1.0f,
+        1.0f,
+        1.0f,
+        2.0f
+    });
+    scale_keyframes.insert({"a_rupperarm", scale_kf_rupperarm});
 
     // crete rotation keyframes
-    std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate;
-    std::vector<KeyframeRotate> kfs_3;
-    keyframes_rotate.insert({"bp_2", kfs_3});
+    std::map<std::string, std::vector<KeyframeRotate> > rotate_keyframes;
+    std::vector<KeyframeRotate> rotate_kf_hip;
+
+    // rotate keyframes for lthigh
+    std::vector<KeyframeRotate> rotate_kf_lthigh;
+
+    rotate_kf_lthigh.push_back({
+        20.0f,
+        0.0f,
+        0.0f,
+        0.0f
+    });
+    rotate_kf_lthigh.push_back({
+        -20.0f,
+        0.0f,
+        0.0f,
+        1.0f
+    });
+    rotate_kf_lthigh.push_back({
+        20.0f,
+        0.0f,
+        0.0f,
+        2.0f
+    });
+    rotate_keyframes.insert({"a_lthigh", rotate_kf_lthigh});
+
+    // rotate keyframes for lupperarm
+    std::vector<KeyframeRotate> rotate_kf_lupperarm;
+
+    rotate_kf_lupperarm.push_back({
+        0.0f,
+        50.0f,
+        90.0f,
+        0.0f
+    });
+    rotate_kf_lupperarm.push_back({
+        0.0f,
+        -30.0f,
+        90.0f,
+        1.0f
+    });
+    rotate_kf_lupperarm.push_back({
+        0.0f,
+        50.0f,
+        90.0f,
+        2.0f
+    });
+    rotate_keyframes.insert({"a_lupperarm", rotate_kf_lupperarm});
+
+    // rotate keyframes for rthigh
+    std::vector<KeyframeRotate> rotate_kf_rthigh;
+
+    rotate_kf_rthigh.push_back({
+        -20.0f,
+        0.0f,
+        0.0f,
+        0.0f
+    });
+    rotate_kf_rthigh.push_back({
+        20.0f,
+        0.0f,
+        0.0f,
+        1.0f
+    });
+    rotate_kf_rthigh.push_back({
+        -20.0f,
+        0.0f,
+        0.0f,
+        2.0f
+    });
+    rotate_keyframes.insert({"a_rthigh", rotate_kf_rthigh});
+
+    // rotate keyframes for rupperarm
+    std::vector<KeyframeRotate> rotate_kf_rupperarm;
+
+    rotate_kf_rupperarm.push_back({
+        0.0f,
+        50.0f,
+        -90.0f,
+        0.0f
+    });
+    rotate_kf_rupperarm.push_back({
+        0.0f,
+        -30.0f,
+        -90.0f,
+        1.0f
+    });
+    rotate_kf_rupperarm.push_back({
+        0.0f,
+        50.0f,
+        -90.0f,
+        2.0f
+    });
+    rotate_keyframes.insert({"a_rupperarm", rotate_kf_rupperarm});
 
     // insert bp keyframes into a vector
     Animation anim(
         body_parts,
         translation_keyframes,
         scale_keyframes,
-        keyframes_rotate,
+        rotate_keyframes,
         2.0f
     );
     return anim;
