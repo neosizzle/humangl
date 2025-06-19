@@ -32,7 +32,7 @@ void RUpperarm::draw(Animation &anim, Shader &ourShader, float newx, float newy)
     {
         new RForearm(_bodyStack, _model)
     };
-    for (int i = 0; i < parts.size(); i++)
+    for (size_t i = 0; i < parts.size(); i++)
     {
         _bodyStack->push(parts[i]);
         _bodyStack->top()->draw(anim, ourShader, x + 0.9f, y);

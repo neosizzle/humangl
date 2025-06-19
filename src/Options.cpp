@@ -84,7 +84,7 @@ void Options::handle_key(GLFWwindow *window)
 	}
 
 	// switch between body parts
-	const int curr_bp_idx = getIndex(this->body_parts, this->selected_body_part);
+	const size_t curr_bp_idx = getIndex(this->body_parts, this->selected_body_part);
 	if (this->previous_key_pressed == GLFW_KEY_LEFT && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE)
 	{
 		if (curr_bp_idx == 0)
@@ -108,7 +108,7 @@ void Options::handle_key(GLFWwindow *window)
 
 
 	// increase / decrease color on current body part
-	const int curr_color_idx = getIndex(this->color_options, this->colors[this->selected_body_part]);
+	const size_t curr_color_idx = getIndex(this->color_options, this->colors[this->selected_body_part]);
 	if (this->previous_key_pressed == GLFW_KEY_UP && glfwGetKey(window, GLFW_KEY_UP) == GLFW_RELEASE)
 	{
 		if (curr_color_idx == 0)
@@ -133,6 +133,7 @@ void Options::handle_key(GLFWwindow *window)
 
 	// increase / decrease scale on current body part 
 	const int curr_size = this->sizes[selected_body_part];
+	(void) curr_size;
 	if (this->previous_key_pressed == GLFW_KEY_EQUAL && glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_RELEASE)
 	{
 		if (curr_color_idx < 3.0f )

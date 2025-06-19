@@ -77,6 +77,7 @@ float Animation::get_kf_percentage(std::vector<Keyframe> kf_vect, Keyframe& curr
 // output = (1 - ratio) * prev kf + ratio * nextkf
 Matrix Animation::interpolate_translate(float delta_time, std::string body_part)
 {
+    (void) delta_time;
     KeyframeTranslate next_kf;
     KeyframeTranslate curr_kf;
     float kf_percentage = 0.0f;
@@ -112,6 +113,7 @@ Matrix Animation::interpolate_translate(float delta_time, std::string body_part)
 // output = (1 - ratio) * prev kf + ratio * nextkf
 Matrix Animation::interpolate_scale(float delta_time, std::string body_part)
 {
+    (void) delta_time;
     KeyframeScale next_kf;
     KeyframeScale curr_kf;
     float kf_percentage = 0.0f;
@@ -140,6 +142,7 @@ Matrix Animation::interpolate_scale(float delta_time, std::string body_part)
 
 Matrix Animation::interpolate_rotate(float delta_time, std::string body_part)
 {
+    (void) delta_time;
     KeyframeRotate next_kf;
     KeyframeRotate curr_kf;
     float kf_percentage = 0.0f;
@@ -182,7 +185,7 @@ std::map<std::string, Matrix> Animation::get_next_frame(float delta_time)
     Matrix rotate_interpolated;
 
     // loop through body parts
-    for (int i = 0; i < this->body_parts.size(); i++) {
+    for (size_t i = 0; i < this->body_parts.size(); i++) {
         std::string body_part = this->body_parts[i];
 
         // interpolate scale

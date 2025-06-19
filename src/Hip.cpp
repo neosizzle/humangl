@@ -26,6 +26,8 @@ void Hip::draw(Animation &anim, Shader &ourShader, float x, float y)
     // apply animations
     // _model = anim.get_current_frame()["bp_1"];
 
+    (void) x;
+    (void) y;
     std::map<std::string, Matrix> frame = anim.get_current_frame();
     if (frame.count(_anim_key))
         _model = frame[_anim_key] * _model;
@@ -36,7 +38,7 @@ void Hip::draw(Animation &anim, Shader &ourShader, float x, float y)
         new LThigh(_bodyStack, _model),
         new RThigh(_bodyStack, _model)
     };
-    for (int i = 0; i < parts.size(); i++)
+    for (size_t i = 0; i < parts.size(); i++)
     {
         _bodyStack->push(parts[i]);
         _bodyStack->top()->draw(anim, ourShader, 0.0f, -0.375f);

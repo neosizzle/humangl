@@ -12,13 +12,13 @@ Vector::Vector()
 
 Vector::Vector(int size, std::vector<float> vect) : _dims(size) {
 	this->_arr = new float[size];
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		this->_arr[i] = vect[i];
 }
 
 Vector::Vector(int size, int init_value) : _dims(size) {
 	this->_arr = new float[size];
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		this->_arr[i] = init_value;
 }
 
@@ -32,7 +32,7 @@ std::string Vector::to_string()
 {
 	std::string res;
 
-	for (size_t i = 0; i < this->_dims; i++)
+	for (int i = 0; i < this->_dims; i++)
 	{
 		res += std::to_string(this->_arr[i]);
 		res += ", \n";
@@ -60,7 +60,7 @@ Vector Vector::operator+(Vector right)
 	if (this->_dims != right.get_dims())
 		throw std::string("Vector::operator+(Vector right): Different sizes");
 
-	for (size_t i = 0; i < this->_dims; i++)
+	for (int i = 0; i < this->_dims; i++)
 		res_arr.push_back(v1_arr[i] + v2_arr[i]);
 
 	Vector newVect(this->get_dims(), res_arr);
@@ -76,7 +76,7 @@ Vector Vector::operator-(Vector right)
 	if (this->_dims != right.get_dims())
 		throw std::string("Vector::operator+(Vector right): Different sizes");
 
-	for (size_t i = 0; i < this->_dims; i++)
+	for (int i = 0; i < this->_dims; i++)
 		res_arr.push_back(v1_arr[i] - v2_arr[i]);
 
 	Vector newVect(this->get_dims(), res_arr);
@@ -92,7 +92,7 @@ Vector Vector::operator=(Vector right)
 	if (this->_arr)
 		delete[] this->_arr;
 	this->_arr = new float[size];
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		this->_arr[i] = vect[i];
 
 	return *this;
@@ -118,7 +118,7 @@ Vector Vector::operator+=(Vector right)
 	int size = newVect.get_dims();
 
 	// copy elements
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		this->_arr[i] = vect[i];
 
 	return *this;
@@ -131,7 +131,7 @@ Vector Vector::operator-=(Vector right)
 	int size = newVect.get_dims();
 
 	// copy elements
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		this->_arr[i] = vect[i];
 
 	return *this;
@@ -145,7 +145,7 @@ bool Vector::operator==(const Vector right) const
 	if (this->_dims != right.get_dims())
 		throw std::string("Vector::operator==(Vector right): Different sizes");
 
-	for (size_t i = 0; i < this->_dims; i++)
+	for (int i = 0; i < this->_dims; i++)
 		if (v1_arr[i] != v2_arr[i]) return false;
 	return true;
 }
@@ -157,6 +157,6 @@ Vector::Vector(const Vector &right)
 
 	this->_dims = size;
 	this->_arr = new float[size];
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		this->_arr[i] = vect[i];
 }

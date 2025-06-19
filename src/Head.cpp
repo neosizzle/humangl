@@ -21,6 +21,8 @@ Head::~Head()
 
 void Head::draw(Animation &anim, Shader &ourShader, float newx, float newy)
 {
+    (void) newx;
+    (void) newy;
     std::map<std::string, Matrix> frame = anim.get_current_frame();
     if (frame.count(_anim_key))
         _model = frame[_anim_key] * _model;

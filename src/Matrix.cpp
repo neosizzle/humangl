@@ -13,7 +13,7 @@ Matrix::Matrix(int size, std::vector<float> matrix) : _dims(size) {
 	int length = size * size;
 	this->_arr = new float[length];
 	
-	for (size_t i = 0; i < length; i++)
+	for (int i = 0; i < length; i++)
 		this->_arr[i] = matrix[i];
 }
 
@@ -22,7 +22,7 @@ Matrix::Matrix(int size, float init_value) : _dims(size) {
 	this->_arr = new float[length];
 	int size_ctr = size;
 
-	for (size_t i = 0; i < length; i++)
+	for (int i = 0; i < length; i++)
 	{
 		if (size_ctr == size)
 			this->_arr[i] = init_value;
@@ -53,7 +53,7 @@ std::string Matrix::to_string()
 	int length = this->_dims * this->_dims;
 	int size_ctr = 1;
 
-	for (size_t i = 0; i < length; i++)
+	for (int i = 0; i < length; i++)
 	{
 		res += std::to_string(this->_arr[i]);
 		if (size_ctr != this->_dims)
@@ -120,7 +120,7 @@ Matrix Matrix::operator=(Matrix right)
 	if (this->_arr)
 		delete[] this->_arr;
 	this->_arr = new float[size];
-		for (size_t i = 0; i < size; i++)
+		for (int i = 0; i < size; i++)
 		this->_arr[i] = vect[i];
 
 	return *this;
@@ -147,7 +147,7 @@ Matrix Matrix::operator+=(Matrix right)
 
 	// copy elements
 	size *= size;
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		this->_arr[i] = vect[i];
 
 	return *this;
@@ -161,7 +161,7 @@ Matrix Matrix::operator-=(Matrix right)
 
 	// copy elements
 	size *= size;
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		this->_arr[i] = vect[i];
 
 	return *this;
@@ -175,11 +175,11 @@ Matrix Matrix::operator*(Matrix right)
 		throw std::string("Matrix::operator*(Matrix right): Different sizes");
 
 	// generate rows
-	for (size_t curr_row = 0; curr_row < this->_dims; curr_row++)
+	for (int curr_row = 0; curr_row < this->_dims; curr_row++)
 	{
 		std::vector<float> res_row;
 		// generate columns
-		for (size_t curr_col = 0; curr_col < this->_dims; curr_col++)
+		for (int curr_col = 0; curr_col < this->_dims; curr_col++)
 		{
 			float res_val = 0.0f;
 
@@ -190,7 +190,7 @@ Matrix Matrix::operator*(Matrix right)
 			int curr_col_b = curr_col;
 
 			// do the dot product thingy on A's row and B's column
-			for (size_t i = 0; i < this->_dims; i++)
+			for (int i = 0; i < this->_dims; i++)
 			{
 				res_val += this->_arr[curr_row_a] * right.value_ptr()[curr_col_b];
 				++curr_row_a;
@@ -215,6 +215,6 @@ Matrix::Matrix(const Matrix &right)
 	this->_dims = size;
 	size *= size;
 	this->_arr = new float[size];
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		this->_arr[i] = vect[i];
 }

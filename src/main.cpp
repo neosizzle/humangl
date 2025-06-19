@@ -35,11 +35,13 @@ float lastFrame = 0.0f;
 // options
 Options options;
 
-int main()
+int main(int argc, char **argv)
 {
-    // dev fn
+    (void) argv;
     Animation anim = get_walking_animation();
-    // Animation anim = get_jumping_animation();
+
+    if (argc != 1)
+        anim =  get_jumping_animation();
 
     // glfw: initialize and configure
     glfwInit();
@@ -96,6 +98,7 @@ int main()
      * WASD - move camera
      * Click and Drag - look around
      * Scroll - Zoom
+     * # Launch program with 2 argc to get jumping animation
      * 
     */)" << std::endl;
 
@@ -167,12 +170,14 @@ void processInput(GLFWwindow *window)
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
+    (void) window;
     glViewport(0, 0, width, height);
 }
 
 // glfw: whenever the mouse moves, this callback is called
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
+    (void) window;
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
 
@@ -195,11 +200,16 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
+    (void) window;
+    (void) xoffset;
     camera.ProcessMouseScroll(static_cast<float>(yoffset));
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
+    (void) window;
+    (void) mods;
+
     if (button == GLFW_MOUSE_BUTTON_LEFT) 
                camera.ProcessMouseClick(action == GLFW_PRESS);
 }

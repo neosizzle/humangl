@@ -14,7 +14,7 @@ float ftm::dot(Vector v1, Vector v2)
 	if (v1.get_dims() != v2.get_dims())
 		throw "ftm::dot(Vector v1, Vector v2): Different sizes";
 
-	for (size_t i = 0; i < v1.get_dims(); i++)
+	for (int i = 0; i < v1.get_dims(); i++)
 		res += v1_arr[i] * v2_arr[i];
 
 	return res;
@@ -140,7 +140,6 @@ Matrix ftm::rotate(Matrix original, float angle, Vector axis)
 	float *temp_arr = temp_matr.value_ptr();
 	float *axis_arr = axis_normed.value_ptr();
 	float *og_arr = original.value_ptr();
-	int size = original.get_dims() * original.get_dims();
 	std::vector<float> rotate_matrix;
 	std::vector<float> result_matrix;
 

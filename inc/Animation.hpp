@@ -152,12 +152,13 @@ class Animation
      * */
     private:
         std::string name;
-        float duration;
         float curr_progress;
         std::vector<std::string> body_parts;
         std::map<std::string, std::vector<KeyframeTranslate> >  keyframes_translate;
         std::map<std::string, std::vector<KeyframeScale> >  keyframes_scale;
         std::map<std::string, std::vector<KeyframeRotate> > keyframes_rotate;
+        float duration;
+
 
         Matrix interpolate_translate(float delta_time, std::string body_part);
         Matrix interpolate_scale(float delta_time, std::string body_part);
